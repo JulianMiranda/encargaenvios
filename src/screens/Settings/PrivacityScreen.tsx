@@ -15,7 +15,7 @@ export const PrivacityScreen = () => {
       <BackButton navigation={navigation} />
       <WebView
         source={{
-          uri: 'https://baria-politics.web.app',
+          uri: 'https://encarga-politics.web.app',
         }}
         startInLoadingState
         renderLoading={() => (

@@ -15,7 +15,7 @@ export const TermsScreen = () => {
       <BackButton navigation={navigation} />
       <WebView
         source={{
-          uri: 'https://baria-terms.web.app',
+          uri: 'https://encarga-terms.web.app',
         }}
         startInLoadingState
         renderLoading={() => (

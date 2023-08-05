@@ -124,7 +124,7 @@ export const useCard = () => {
         },
         order: {
           dev_reference: 'baria',
-          description: 'Producto con envío',
+          description: 'Producto con envío, icluye envío',
           amount: total,
           taxable_amount: taxAm,
           tax_percentage: 12,

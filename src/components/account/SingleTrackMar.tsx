@@ -79,8 +79,8 @@ export const SingleTrackMar = ({
             <TrackStep
               text={
                 !state.AGENCY
-                  ? 'baria está preparando tu envío'
-                  : 'Despachado por Agencia de Envíos baria'
+                  ? 'Encarga está preparando tu envío'
+                  : 'Despachado por Agencia de Envíos Encarga'
               }
               final={final === 'CONFIRMED'}
               fecha={dates.AGENCY}

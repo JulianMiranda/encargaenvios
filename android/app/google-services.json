@@ -1,48 +1,92 @@
 {
   "project_info": {
-    "project_number": "1034326032679",
-    "project_id": "encarga-envios",
-    "storage_bucket": "encarga-envios.appspot.com"
+    "project_number": "342589001739",
+    "project_id": "bariaenvios",
+    "storage_bucket": "bariaenvios.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1034326032679:android:9372ae8b0ab06c85522902",
+        "mobilesdk_app_id": "1:342589001739:android:7e1e18d9b5b6a3967df70e",
         "android_client_info": {
-          "package_name": "com.encargaenvios"
+          "package_name": "com.bariaenvios"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1034326032679-iotagdh8tqskuumk4tkp3gf2p6opkrob.apps.googleusercontent.com",
+          "client_id": "342589001739-beg8f2k07l286bv8glosluuoanp3o1gc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.encargaenvios",
+            "package_name": "com.bariaenvios",
+            "certificate_hash": "40ea5c71a2b0a293f7f70e545f24e88454fba056"
+          }
+        },
+        {
+          "client_id": "342589001739-ls7jbpgmm9bntt2q7gjtm34g9qs1ftpk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bariaenvios",
             "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
-          "client_id": "1034326032679-vm9mjidtbq3kj0grisocluce1aghrdg1.apps.googleusercontent.com",
+          "client_id": "342589001739-ru3cumhtvfh6d50uoer9h1414skpobuh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDMsVml9W0ZZvijORRW9soZyEv-CKlaPJY"
+          "current_key": "AIzaSyDVlFpn6gPO6fb04GTWqw8tKOgVVDaUoHU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1034326032679-vm9mjidtbq3kj0grisocluce1aghrdg1.apps.googleusercontent.com",
+              "client_id": "342589001739-ru3cumhtvfh6d50uoer9h1414skpobuh.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "1034326032679-2a92khkrehcvl03iodlb55c5vj8e3ke1.apps.googleusercontent.com",
+              "client_id": "342589001739-22l3osfn9rcp75ol82t5ukkgqd1go7lh.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "org.reactjs.native.example.encarga-Envios"
+                "bundle_id": "org.reactjs.native.example.bariaenvios"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342589001739:android:1d7eaa93118b60747df70e",
+        "android_client_info": {
+          "package_name": "com.encargaenvios"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "342589001739-ru3cumhtvfh6d50uoer9h1414skpobuh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVlFpn6gPO6fb04GTWqw8tKOgVVDaUoHU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "342589001739-ru3cumhtvfh6d50uoer9h1414skpobuh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "342589001739-22l3osfn9rcp75ol82t5ukkgqd1go7lh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.bariaenvios"
               }
             }
           ]

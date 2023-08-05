@@ -85,7 +85,7 @@ export const TermsButton = ({terms, setTerms}: Props) => {
             </TouchableOpacity>
             <WebView
               style={{flex: 1}}
-              source={{uri: 'https://baria-terms.web.app/'}}
+              source={{uri: 'https://encarga-terms.web.app/'}}
               renderLoading={() => <ActivityIndicator />}
             />
           </View>

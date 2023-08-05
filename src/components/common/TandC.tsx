@@ -67,14 +67,15 @@ export const TandC = () => {
             posible.
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
-            • baria Envios se hace responsable de sus envíos, una vez entregados
-            a Aduanas de Cuba y sigan su curso de destino hasta su domicilio.
+            • encarga Envios se hace responsable de sus envíos, una vez
+            entregados a Aduanas de Cuba y sigan su curso de destino hasta su
+            domicilio.
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
             • Algunos artículos pagan servicios de aduanas en la moneda del país
             (CUP Cuba) y algunos electrodomésticos además pagan aranceles, por
-            lo que sugerimos consultar la ley de aduana antes de comprar, baria
-            Envios NO se hace responsable de estos pagos.
+            lo que sugerimos consultar la ley de aduana antes de comprar,
+            encarga Envios NO se hace responsable de estos pagos.
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
             • Al recibir el paquete o bulto debe estar debidamente sellado, debe
@@ -93,7 +94,7 @@ export const TandC = () => {
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
             • Con gusto le atenderemos por mensajes de texto al WhatsApp
-            +593992918332 o +593995687985, o al correo bariaenvios@gmail.com
+            +593962914922, o al correo encargaenvios@gmail.com
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
             • En su perfil de cliente ubicado en la parte inferior derecha de
@@ -135,7 +136,7 @@ export const TandC = () => {
             Agradecemos su confianza
           </Text>
           <Text style={{...styles.text, fontSize: 20, textAlign: 'right'}}>
-            Gracias por preferir baria Envios
+            Gracias por preferir encarga Envios
           </Text>
         </View>
         <View

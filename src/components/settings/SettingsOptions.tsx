@@ -115,7 +115,7 @@ export default function SettingsOptions() {
   const redirectWhatsapp = () => {
     setOpenModal(false);
     Linking.openURL(
-      'http://api.whatsapp.com/send?text=Hola 📦 *baria Envios*, me podría ayudar?&phone=+593995687985',
+      'http://api.whatsapp.com/send?text=Hola 📦 *encarga Envios*, me podría ayudar?&phone=+593962914922',
     );
   };
   const deleteAccount = async () => {
@@ -135,7 +135,7 @@ export default function SettingsOptions() {
 
   const privacity = () => {
     setOpenModal(false);
-    Linking.openURL('https://baria-politics.web.app');
+    Linking.openURL('https://encarga-politics.web.app');
   };
   const redirectCorreo = () => {
     setOpenModal(false);

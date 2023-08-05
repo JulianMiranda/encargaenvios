@@ -10,7 +10,7 @@ export const AboutApp = () => {
       <TopScrollGradient title="Acerca de la app">
         <View style={{padding: 10}}>
           <Text style={{...styles.text, fontSize: 26, marginTop: 70}}>
-            • baria Envios es una Agencia de Envíos radicada en Ecuador con
+            • encarga Envios es una Agencia de Envíos radicada en Ecuador con
             destino a Cuba.
           </Text>
           <Text style={{...styles.text18}}>
@@ -51,10 +51,10 @@ export const AboutApp = () => {
           </Text>
           <Text style={{...styles.text18}}>
             • Con gusto le atenderemos por mensaje de texto al WhatsApp
-            +593992918332 o +593995687985, o al correo bariaenvios@gmail.com
+            +593962914922, o al correo encargaenvios@gmail.com
           </Text>
           <Text style={{...styles.text18}}>
-            • baria Envios se reserva el derecho de admisión tanto de clientes
+            • encarga Envios se reserva el derecho de admisión tanto de clientes
             como de pedidos.
           </Text>
 
@@ -67,7 +67,7 @@ export const AboutApp = () => {
               fontSize: 20,
               textAlign: 'right',
             }}>
-            Gracias por preferir baria Envios
+            Gracias por preferir encarga Envios
           </Text>
         </View>
         <View

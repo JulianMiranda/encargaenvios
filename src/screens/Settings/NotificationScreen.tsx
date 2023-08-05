@@ -55,8 +55,8 @@ export const NotificationScreen = () => {
         setIsLoading(false);
         toast.show(
           reciveNot
-            ? 'Te mantendremos informado de todas las novedades de baria Envios'
-            : 'Ya no recibirás notificaciones de baria Envios',
+            ? 'Te mantendremos informado de todas las novedades de encarga Envios'
+            : 'Ya no recibirás notificaciones de encarga Envios',
           {
             type: 'normal',
             placement: 'top',
@@ -140,7 +140,9 @@ export const NotificationScreen = () => {
       <BackButton navigation={navigation} />
       <TopGradient text="Notificaciones" />
       <View style={{marginTop: 80}} />
-      <Text style={styles.title}>baria Envios quiere mantenerte informado</Text>
+      <Text style={styles.title}>
+        encarga Envios quiere mantenerte informado
+      </Text>
       <View
         style={{
           ...styles.line,
