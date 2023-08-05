@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "1034326032679",
+    "project_id": "encarga-envios",
+    "storage_bucket": "encarga-envios.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1034326032679:android:9372ae8b0ab06c85522902",
+        "android_client_info": {
+          "package_name": "com.encargaenvios"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1034326032679-iotagdh8tqskuumk4tkp3gf2p6opkrob.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.encargaenvios",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1034326032679-vm9mjidtbq3kj0grisocluce1aghrdg1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMsVml9W0ZZvijORRW9soZyEv-CKlaPJY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1034326032679-vm9mjidtbq3kj0grisocluce1aghrdg1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1034326032679-2a92khkrehcvl03iodlb55c5vj8e3ke1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.encarga-Envios"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
