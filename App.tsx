@@ -5,8 +5,11 @@
  * @format
  */
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import type {PropsWithChildren} from 'react';
+import auth from '@react-native-firebase/auth';
+import SplashScreen from 'react-native-splash-screen';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {
   SafeAreaView,
   ScrollView,
@@ -62,6 +65,10 @@ function App(): JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
@@ -72,6 +79,7 @@ function App(): JSX.Element {
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
         <Header />
+        <Icon name="chevron-right" size={24} color={'red'} />
         <View
           style={{
             backgroundColor: isDarkMode ? Colors.black : Colors.white,
