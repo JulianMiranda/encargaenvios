@@ -8,7 +8,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [RNSplashScreen show];
+  /* [RNSplashScreen show]; */
   if ([FIRApp defaultApp] == nil) {
     [FIRApp configure]; 
   }

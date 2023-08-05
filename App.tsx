@@ -1,126 +1,74 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React, {useEffect} from 'react';
-import type {PropsWithChildren} from 'react';
-import auth from '@react-native-firebase/auth';
-import SplashScreen from 'react-native-splash-screen';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {LogBox, StatusBar} from 'react-native';
+import {ToastProvider} from 'react-native-toast-notifications';
+import {AuthProvider} from './src/context/auth/AuthContext';
+import {ChatProvider} from './src/context/chat/ChatContext';
+import {ThemeProvider} from './src/context/theme/ThemeContext';
+import {OrderProvider} from './src/context/order/OrderContext';
+import {ShopProvider} from './src/context/shop/ShopContext';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import messaging from '@react-native-firebase/messaging';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import moment from 'moment';
+import 'moment/locale/es';
+import {StackNavigator} from './src/navigator/navigation';
+moment.locale('es');
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+messaging().setBackgroundMessageHandler(async remoteMessage => {
+  console.log('Message handled in the background!', remoteMessage);
+});
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+const AppState = ({children}: any) => {
+  LogBox.ignoreLogs([
+    'Warning: isMounted(...) is deprecated', // works
+    'Module RCTImageLoader', // works
+    'Require cycle:', // doesn't work
+    'Failed prop type', // doesn't work
+    'react-native-snap-carousel', // doesn't work
+  ]);
 
   useEffect(() => {
-    SplashScreen.hide();
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      console.log('FCM Message Data:', remoteMessage.data);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    fetch('https://cdn.paymentez.com/ccapi/sdk/payment_sdk_stable.min.js').then(
+      response => {},
+    );
   }, []);
 
   return (
-    <SafeAreaView style={backgroundStyle}>
+    <>
       <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
+        translucent
+        backgroundColor="transparent"
+        barStyle={'dark-content'}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <Icon name="chevron-right" size={24} color={'red'} />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+      <SafeAreaProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <ChatProvider>
+              <ThemeProvider>
+                <OrderProvider>
+                  <ShopProvider>{children}</ShopProvider>
+                </OrderProvider>
+              </ThemeProvider>
+            </ChatProvider>
+          </AuthProvider>
+        </ToastProvider>
+      </SafeAreaProvider>
+    </>
   );
-}
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
-
+};
+const App = () => {
+  return (
+    <AppState>
+      <StackNavigator />
+    </AppState>
+  );
+};
 export default App;
