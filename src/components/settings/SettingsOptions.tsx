@@ -314,7 +314,7 @@ function generateOptions(selectedComponent: any, status: any) {
       onPress: () => selectedComponent('app'),
       image: require('../../assets/Diapositiva2.png'),
     },
-    {
+    /* {
       title: 'Información al comprar',
       iconType: 'material-community',
       iconNameLeft: 'shield-star-outline',
@@ -323,7 +323,7 @@ function generateOptions(selectedComponent: any, status: any) {
       color: '#b621e4',
       onPress: () => selectedComponent('about'),
       image: require('../../assets/Diapositiva3.png'),
-    },
+    }, */
 
     {
       title: 'Política de Privacidad',
@@ -346,7 +346,7 @@ function generateOptions(selectedComponent: any, status: any) {
       onPress: () => selectedComponent('terms'),
       image: require('../../assets/Diapositiva12.png'),
     },
-    {
+    /*  {
       title: 'MyCards',
       iconType: 'material-community',
       iconNameLeft: 'cellphone-lock',
@@ -355,7 +355,7 @@ function generateOptions(selectedComponent: any, status: any) {
       color: '#24A10A',
       onPress: () => selectedComponent('cards'),
       image: require('../../assets/Diapositiva14.png'),
-    },
+    }, */
     {
       title: 'Perfil',
       iconType: 'material-community',

@@ -14,44 +14,23 @@ export const TandC = () => {
             Estimado Cliente
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
-            • Cada persona residente en Cuba puede recibir 30 paquetes al año,
-            divididos en 10 cada dos meses.
+            • Cada persona residente en Cuba puede recibir 500 puntos al año.
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
-            • El peso máximo de cada paquete de misceláneas es de 1.50
-            kilogramos, con un costo de X USD por paquete.
+            • Correos de Cuba cobrará un una tarifa de entrega que deberá ser
+            pagada a la hora de retirar el paquete en la Oficina de Correo de
+            Cuba.
           </Text>
-          <Text style={{...styles.text, fontSize: 18}}>
-            • Los artículos que excedan los 1.50 kilogramos tienen un costo
-            mayor de envío según su peso y volumen, dichos artículos no pueden
-            exceder los 200 puntos en valor de Aduanas de Cuba.
-          </Text>
+
           <Text style={{...styles.text, fontSize: 18}}>
             • Para consultar los valores de Aduanas de Cuba recomendamos
             descargar la aplicación móvil NAC (Normas Aduaneras de Cuba).
           </Text>
+
           <Text style={{...styles.text, fontSize: 18}}>
-            • Ofrecemos artículos para comercio y para consumo personal, el
-            precio varía en dependencia de la cantidad de artículos
-            seleccionados.
-          </Text>
-          <Text style={{...styles.text, fontSize: 18}}>
-            • Consideramos una compra por mayor para comercio a partir de seis
-            (6) piezas del mismo artículo, ó a partir de 5 paquetes en su
-            pedido.
-          </Text>
-          <Text style={{...styles.text, fontSize: 18}}>
-            • Al realizar compras por mayor las marcas, colores, números,
-            tallas, etc, son surtidas.
-          </Text>
-          <Text style={{...styles.text, fontSize: 18}}>
-            • Las fotos exhibidas en nuestra app de ventas son referenciales, le
-            puede variar el color y la marca, nunca le variará la talla, número
-            o calidad del producto.
-          </Text>
-          <Text style={{...styles.text, fontSize: 18}}>
-            • Una vez enviados sus paquetes se le enviarán los códigos de
-            seguimiento de sus paquetes de manera instantánea.
+            • Una vez enviados sus paquetes se le actualizarán los códigos de
+            seguimiento de sus paquetes que se verán reflejados en la sección de
+            Rastreo.
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
             • Cada paquete tiene su código, es independiente a otro y así son
@@ -92,10 +71,7 @@ export const TandC = () => {
             por lo que no podemos indicarle una fecha exacta en la entrega de
             sus paquetes.
           </Text>
-          <Text style={{...styles.text, fontSize: 18}}>
-            • Con gusto le atenderemos por mensajes de texto al WhatsApp
-            +593962914922, o al correo encargaenvios@gmail.com
-          </Text>
+
           <Text style={{...styles.text, fontSize: 18}}>
             • En su perfil de cliente ubicado en la parte inferior derecha de
             nuestra pantalla podrá encontrar:
