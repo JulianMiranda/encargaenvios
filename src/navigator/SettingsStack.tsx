@@ -15,6 +15,8 @@ import {MyCards} from '../screens/Settings/MyCards';
 import {AddCard} from '../screens/Settings/AddCard';
 import {ShowCard} from '../screens/Settings/ShowCard';
 import {Card} from '../interfaces/Card.interface';
+import {Chat} from '../interfaces/Chat.interface';
+import {AdminPersonalChatScreen} from '../screens/Settings/AdminPersonalChatScreen';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +34,7 @@ export type RootStackParams = {
   MyCards: undefined;
   AddCard: undefined;
   ShowCard: {card: Card};
+  AdminPersonalChatScreen: {userChat: Chat};
 };
 
 export const SettingsStack = () => {
@@ -157,6 +160,15 @@ export const SettingsStack = () => {
       <Stack.Screen
         name="ShowCard"
         component={ShowCard}
+        options={{
+          headerShown: false,
+          /* title: 'Orden',
+          headerBackTitleVisible: false, */
+        }}
+      />
+      <Stack.Screen
+        name="AdminPersonalChatScreen"
+        component={AdminPersonalChatScreen}
         options={{
           headerShown: false,
           /* title: 'Orden',

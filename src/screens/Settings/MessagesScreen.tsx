@@ -1,29 +1,15 @@
-import React, {useContext, useEffect, useRef} from 'react';
-import {FlatList, View} from 'react-native';
+import React, {useContext} from 'react';
 import {BackButton} from '../../components/common/BackButton';
-import {TopGradient} from '../../components/common/TopGradient';
 import {useNavigation} from '@react-navigation/core';
-import {ChatContext} from '../../context/chat/ChatContext';
-import ChatMessage from '../../components/settings/ChatMessage';
-import InputBox from '../../components/settings/InputBox';
 import {NoPropsInvited} from '../../components/common/NoPropsInvited';
 import {AuthContext} from '../../context/auth/AuthContext';
+import {CommonUserMessages} from '../../components/settings/CommonUserMessages';
+import {AdminMessages} from '../../components/settings/AdminMessages';
 
 export const MessagesScreen = () => {
   const navigation = useNavigation();
-  const scrollRef = useRef();
-  const {messages, loadMessages, clearNewMessages} = useContext(ChatContext);
-  const {status} = useContext(AuthContext);
+  const {status, user} = useContext(AuthContext);
 
-  useEffect(() => {
-    loadMessages();
-
-    return () => {
-      console.log('Clear messages');
-      clearNewMessages();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
   if (status !== 'authenticated') {
     return (
       <>
@@ -32,19 +18,18 @@ export const MessagesScreen = () => {
       </>
     );
   }
+  console.log(user?.id);
   return (
     <>
-      <TopGradient text={'Ayuda'} />
-      <BackButton navigation={navigation} />
-      <FlatList
-        ref={scrollRef.current}
-        keyExtractor={(item, index) => index.toString()}
-        data={messages}
-        inverted
-        ListHeaderComponent={<View style={{height: 50}} />}
-        renderItem={({item}) => <ChatMessage message={item} />}
-      />
-      <InputBox />
+      {user?.role === 'ADMIN' ? (
+        <>
+          <AdminMessages />
+        </>
+      ) : (
+        <>
+          <CommonUserMessages />
+        </>
+      )}
     </>
   );
 };

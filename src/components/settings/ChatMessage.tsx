@@ -7,9 +7,12 @@ const ChatMessage = (props: any) => {
   const {message} = props;
   const {user} = useContext(AuthContext);
 
-  console.log('ChatMessage', message);
   const isMyMessage = () => {
-    return message.de === user?.id;
+    if (user?.role === 'ADMIN') {
+      return message.de === '628af2682668335c40e79106';
+    } else {
+      return message.de === user?.id;
+    }
   };
 
   return (
