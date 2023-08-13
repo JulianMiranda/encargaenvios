@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import {FadeInImage} from '../common/FadeInImage';
 import {useNavigation} from '@react-navigation/native';
@@ -21,6 +22,7 @@ interface Props {
   codes: Code[];
   createdAt: Date;
   order: string;
+  status: boolean;
 }
 
 interface PropsNavigation
@@ -34,6 +36,7 @@ export const FacturaMultiCard = ({
   codes,
   order,
   createdAt,
+  status,
 }: Props) => {
   const navigation = useNavigation<PropsNavigation>();
   const array = [];
@@ -58,16 +61,24 @@ export const FacturaMultiCard = ({
                 codes: repetCodes,
                 createdAt,
                 order,
+                status,
               })
             }
             activeOpacity={0.8}>
             {carItem.category.name !== carItem.category.subname && (
               <Text style={{...styles.date}}>{carItem.category.subname}</Text>
             )}
+
             <View
               style={{
                 ...styles.cardContainer,
               }}>
+              {!status && (
+                <Image
+                  source={require('../../assets/cancelled.png')}
+                  style={{width: 150, height: 150}}
+                />
+              )}
               <View style={styles.cardInside}>
                 {carItem.category.image && (
                   <FadeInImage

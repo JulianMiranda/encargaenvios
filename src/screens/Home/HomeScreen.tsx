@@ -21,6 +21,7 @@ import SplashScreen from 'react-native-splash-screen';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Modalize} from 'react-native-modalize';
 import {SearchModalize} from './SearchModalize';
+import {useNavigation} from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('window');
 
@@ -40,6 +41,8 @@ export const HomeScreen = () => {
   const {categoryRecomendedList, loadCategoriesRecomended} =
     useCategoryRecomendedPaginated();
   const modalizeRef = useRef<Modalize>(null);
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     SplashScreen.hide();
@@ -65,7 +68,7 @@ export const HomeScreen = () => {
           backgroundColor: 'rgba(255,255,255,0.92)',
         }}>
         <Image
-          source={require('../../assets/logo_enc.png')}
+          source={require('../../assets/slogan_nofondo.png')}
           style={{
             alignSelf: 'center',
             marginTop: top,
@@ -75,7 +78,8 @@ export const HomeScreen = () => {
           }}
         />
         <TouchableOpacity
-          onPress={() => modalizeRef.current?.open()}
+          /*  onPress={() => modalizeRef.current?.open()} */
+          onPress={() => navigation.navigate('Search', {screen: 'Searchcreen'})}
           activeOpacity={0.8}
           style={{
             position: 'absolute',
@@ -128,7 +132,7 @@ export const HomeScreen = () => {
           )}
         </View>
         <PromoDown imagesPromoFinal={promoDown} />
-        <View style={{marginTop: -50}}>
+        <View style={{marginTop: -25}}>
           <CategoryCardRecomended
             categoryRecomendedList={categoryRecomendedList}
             promoDown={promoDown}

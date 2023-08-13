@@ -35,7 +35,7 @@ export const OrderProvider = ({children}: any) => {
     try {
       console.log('MyUser', user?.id);
       const body = {
-        filter: {user: ['=', user?.id], status: ['=', true]},
+        filter: {user: ['=', user?.id]},
         docsPerPage: 200,
         /*   sort: {createdAt: 'DESC'}, */
         population: [

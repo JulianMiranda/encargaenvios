@@ -25,9 +25,9 @@ export const CategoryCardRecomended = ({
             style={{
               zIndex: 100,
               marginBottom: index % 4 === 0 && index !== 0 ? -50 : 0,
-              marginTop: index % 5 === 0 && index !== 0 ? -50 : 0,
+              marginTop: index % 5 === 0 && index !== 0 ? -25 : 0,
             }}>
-            <RecomendedCard category={item} />
+            <RecomendedCard category={item} index={index} />
           </View>
           {index % 4 === 0 && index !== 0 && (
             <View>

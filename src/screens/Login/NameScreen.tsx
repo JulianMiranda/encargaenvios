@@ -70,7 +70,7 @@ export default function NameScreen(props: any) {
     }
   };
   return (
-    <View style={{...loginStyles.screen, marginTop: 25}}>
+    <View style={{...loginStyles.screen, marginTop: 80}}>
       <Text style={loginStyles.title}>Nombre y Apellido</Text>
       <TextInput
         value={name}
@@ -105,7 +105,7 @@ export default function NameScreen(props: any) {
           // eslint-disable-next-line react-native/no-inline-styles
           style={{
             ...loginStyles.buttonConfirm,
-            backgroundColor: name.trim().length > 0 ? 'black' : '#EAEAEA',
+            backgroundColor: name.trim().length > 0 ? colors.card : '#EAEAEA',
           }}
           onPress={name.trim().length > 0 ? () => handleSave() : () => {}}>
           <Text style={loginStyles.textButton}>Guardar</Text>

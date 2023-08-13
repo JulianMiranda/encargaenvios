@@ -21,6 +21,7 @@ export interface Order {
   updatedAt: Date;
   order: string;
   id: string;
+  status: boolean;
   trackcode: Trackcode;
   selectedCarnet: Carnet[];
 }

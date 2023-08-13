@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Dimensions,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import {FadeInImage} from '../common/FadeInImage';
 import {useNavigation} from '@react-navigation/native';
@@ -20,6 +21,7 @@ interface Props {
   selectedCarnet: any[];
   createdAt: Date;
   order: string;
+  status: boolean;
 }
 
 interface PropsNavigation
@@ -32,6 +34,7 @@ export const FacturaCard = ({
   codes,
   createdAt,
   order,
+  status,
 }: Props) => {
   const navigation = useNavigation<PropsNavigation>();
   const repetCodes = codes.filter(
@@ -50,6 +53,7 @@ export const FacturaCard = ({
             selectedCarnet,
             createdAt,
             order,
+            status,
           })
         }
         activeOpacity={0.8}>
@@ -60,6 +64,20 @@ export const FacturaCard = ({
           style={{
             ...styles.cardContainer,
           }}>
+          {!status && (
+            <Image
+              source={require('../../assets/cancelled.png')}
+              style={{
+                position: 'absolute',
+                zIndex: 10,
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                backgroundColor: 'rgba(255, 255, 255, 0.5)',
+              }}
+            />
+          )}
           <View style={styles.cardInside}>
             {carItem.category.image && (
               <FadeInImage

@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 export type RootStackParams = {
   AccountScreen: undefined;
   TrackScreen: undefined;
-  CorreosScreen: undefined;
+  CorreosScreen: {code: string};
   SingleOrderScreen: {
     carItem: CarItemProps;
     number: number;
@@ -21,6 +21,7 @@ export type RootStackParams = {
     codes: Code[];
     selectedCarnet: any[];
     order: string;
+    status: boolean;
   };
 };
 

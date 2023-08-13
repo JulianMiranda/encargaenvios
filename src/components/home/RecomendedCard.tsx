@@ -10,11 +10,12 @@ import {FadeInImage} from '../common/FadeInImage';
 
 interface Props {
   category: Category;
+  index: number;
 }
 
 interface PropsNavigation
   extends StackNavigationProp<RootStackParams, 'CategoryScreen'> {}
-export const RecomendedCard = ({category}: Props) => {
+export const RecomendedCard = ({category, index}: Props) => {
   const {name, image, priceDiscount, price} = category;
 
   const {setItem} = useContext(ShopContext);
@@ -27,7 +28,7 @@ export const RecomendedCard = ({category}: Props) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.line} />
+      {index % 5 !== 0 && <View style={styles.line} />}
 
       <TouchableOpacity
         activeOpacity={0.9}

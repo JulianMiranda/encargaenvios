@@ -11,6 +11,7 @@ import {BackButton} from '../common/BackButton';
 import {useNavigation} from '@react-navigation/native';
 import {ThemeContext} from '../../context/theme/ThemeContext';
 import {ChatContext} from '../../context/chat/ChatContext';
+import {FadeInImage} from '../common/FadeInImage';
 
 export const AdminMessages = () => {
   const navigation = useNavigation();
@@ -62,6 +63,7 @@ export const AdminMessages = () => {
         ListHeaderComponent={<View style={{height: 100}} />}
         renderItem={({item}) => (
           <>
+            {console.log(item.image.url)}
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={() =>
@@ -75,14 +77,31 @@ export const AdminMessages = () => {
                 paddingHorizontal: 10,
                 padding: 10,
               }}>
-              <Text>{item.name}</Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <FadeInImage
+                  uri={item.image.url}
+                  style={{height: 30, width: 30, borderRadius: 30}}
+                />
+                <Text
+                  style={{
+                    fontWeight:
+                      item.newMessages.length !== 0 ? 'bold' : 'normal',
+                    marginLeft: 5,
+                  }}>
+                  {item.name}
+                </Text>
+              </View>
               {item.newMessages.length !== 0 && (
                 <View
                   style={{
                     backgroundColor: 'rgba(38, 132, 253, 0.7)',
                     borderRadius: 100,
                     padding: 5,
-                    paddingHorizontal: 10,
+                    paddingHorizontal: 12,
                   }}>
                   <Text style={{color: '#fff'}}>{item.newMessages.length}</Text>
                 </View>

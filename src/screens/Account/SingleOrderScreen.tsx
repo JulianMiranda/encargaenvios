@@ -18,6 +18,7 @@ import {BackButton} from '../../components/common/BackButton';
 import {useNavigation} from '@react-navigation/native';
 import {ThemeContext} from '../../context/theme/ThemeContext';
 import WebView from 'react-native-webview';
+import {NoTrackCancel} from '../../components/account/NoTrackCancel';
 
 const {height} = Dimensions.get('window');
 
@@ -26,13 +27,23 @@ interface Props
 
 export const SingleOrderScreen = (props: Props) => {
   const {route} = props;
-  const {carItem, selectedCarnet, trackcode, codes, order, number, createdAt} =
-    route.params;
+  const {
+    carItem,
+    selectedCarnet,
+    trackcode,
+    codes,
+    order,
+    number,
+    createdAt,
+    status,
+  } = route.params;
   const {category} = carItem;
 
   const navigation = useNavigation();
   const openModalize = () => {
-    navigation.navigate('CorreosScreen');
+    navigation.navigate('CorreosScreen', {
+      code: codes.length > 0 ? codes[number].code : '',
+    });
   };
   return (
     <>
@@ -54,20 +65,30 @@ export const SingleOrderScreen = (props: Props) => {
             codes={codes}
             number={number}
           />
-          {carItem.category.ship === 'MARITIMO' ? (
-            <SingleTrackMar
-              createdAt={createdAt}
-              trackcode={trackcode}
-              codes={codes}
-              openModalize={openModalize}
-            />
-          ) : (
-            <SingleTrack
-              createdAt={createdAt}
-              trackcode={trackcode}
-              codes={codes}
-              openModalize={openModalize}
-            />
+          {!status && (
+            <>
+              <NoTrackCancel />
+            </>
+          )}
+          {carItem.category.ship === 'MARITIMO' && status && (
+            <>
+              <SingleTrackMar
+                createdAt={createdAt}
+                trackcode={trackcode}
+                codes={codes}
+                openModalize={openModalize}
+              />
+            </>
+          )}
+          {carItem.category.ship === 'AEREO' && status && (
+            <>
+              <SingleTrack
+                createdAt={createdAt}
+                trackcode={trackcode}
+                codes={codes}
+                openModalize={openModalize}
+              />
+            </>
           )}
         </View>
         <View style={{height: 100}} />

@@ -31,7 +31,7 @@ export const AdminPersonalChatScreen = (props: Props) => {
 
   return (
     <>
-      <TopGradient text={'Ayuda'} />
+      <TopGradient text={userChat.name ? userChat.name : 'Ayuda'} />
       <BackButton navigation={navigation} />
       <FlatList
         ref={scrollRef.current}

@@ -10,6 +10,7 @@ interface Props {
 }
 
 export const FacturasCarousel = ({order}: Props) => {
+  console.log(order);
   return (
     <>
       <View style={styles.container}>
@@ -33,6 +34,7 @@ export const FacturasCarousel = ({order}: Props) => {
                   trackcode={order.trackcode}
                   createdAt={order.createdAt}
                   order={order.order}
+                  status={order.status}
                 />
               </>
             ) : (
@@ -43,6 +45,7 @@ export const FacturasCarousel = ({order}: Props) => {
                 trackcode={order.trackcode}
                 createdAt={order.createdAt}
                 order={order.order}
+                status={order.status}
               />
             )}
           </>

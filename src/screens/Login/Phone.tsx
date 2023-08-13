@@ -16,6 +16,7 @@ import {AuthContext} from '../../context/auth/AuthContext';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {ThemeContext} from '../../context/theme/ThemeContext';
 import {Platform} from 'react-native';
+import {isIphoneXorAbove} from '../../utils/isIphone';
 
 interface Props {
   onSubmit: () => void;
@@ -137,7 +138,8 @@ export default function PhoneNumber({
             style={{
               ...styles.button,
               backgroundColor: phoneNumber ? colors.primary : '#f1b2b3',
-              top: Platform.OS === 'ios' ? height * 0.6 : height * 0.45,
+
+              bottom: isIphoneXorAbove ? 120 : 80,
             }}
             onPress={
               phoneNumber

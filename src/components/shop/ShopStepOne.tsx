@@ -15,7 +15,6 @@ import api from '../../api/api';
 import {ShopContext} from '../../context/shop/ShopContext';
 import {ThemeContext} from '../../context/theme/ThemeContext';
 import {RootStackParams} from '../../navigator/HomeStack';
-import {formatToCurrency} from '../../utils/formatToCurrency';
 import {ProductShop} from './ProductShop';
 import {FacturaShop} from './FacturaShop';
 interface Props {
@@ -38,7 +37,7 @@ export const ShopStepOne = ({total, setTotal}: Props) => {
 
   const navigateCategory = async (id: string) => {
     try {
-      const category = await api.get(`/categories/getOne/${id}`);
+      const category = await api.get(`/categories/getOneUnAuth/${id}`);
       navigation.navigate('CategoryScreen', {
         category: category.data,
       });
@@ -70,6 +69,7 @@ export const ShopStepOne = ({total, setTotal}: Props) => {
       }
     });
     setTotal(totalCalc);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [car]);
 
   return (

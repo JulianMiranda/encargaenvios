@@ -28,6 +28,7 @@ import {PricesView} from './PricesView';
 import {Slider} from './Slider';
 import {Image as PImage} from '../../interfaces/Image.interface';
 import {ModalImages} from '../common/ModalImages';
+import {isIphoneXorAbove} from '../../utils/isIphone';
 
 interface Props {
   category: Category;
@@ -192,8 +193,9 @@ export const CategoryComponent = ({category}: Props) => {
       </ScrollView>
       <View
         style={{
-          height:
-            Platform.OS === 'ios' ? height * 0.14 + 40 : height * 0.11 + 40,
+          height: isIphoneXorAbove ? 150 : 120,
+          /*  height:
+            Platform.OS === 'ios' ? height * 0.14 + 40 : height * 0.11 + 40, */
         }}
       />
       <TouchableOpacity
@@ -202,7 +204,8 @@ export const CategoryComponent = ({category}: Props) => {
           borderColor: soldOut ? '#f1f1f1' : colors.card,
           backgroundColor: soldOut ? '#f1f1f1' : colors.card,
           position: 'absolute',
-          bottom: Platform.OS === 'ios' ? height * 0.14 : height * 0.11,
+          bottom: isIphoneXorAbove ? 110 : 80,
+          /* bottom: Platform.OS === 'ios' ? height * 0.14 : height * 0.11, */
         }}
         activeOpacity={soldOut ? 1 : 0.8}
         onPress={() => {
@@ -219,7 +222,6 @@ export const CategoryComponent = ({category}: Props) => {
             </Text>
           </View>
 
-          {/* <Text style={styles.textButton}>Añadir</Text> */}
           <Text style={styles.textButton}>Añadir al carrito</Text>
         </View>
       </TouchableOpacity>

@@ -31,6 +31,7 @@ import {ShopSuccessComponent} from '../../components/shop/ShopSuccessComponent';
 import {AuthContext} from '../../context/auth/AuthContext';
 import {NoPropsInvited} from '../../components/common/NoPropsInvited';
 import {TermsButton} from '../../components/shop/TermsButton';
+import {isIphoneXorAbove} from '../../utils/isIphone';
 
 const {width, height} = Dimensions.get('window');
 
@@ -546,7 +547,7 @@ const styles = StyleSheet.create({
     left: 10,
   },
   buttonContinue: {
-    marginBottom: Platform.OS === 'ios' ? 110 : 80,
+    marginBottom: isIphoneXorAbove ? 110 : 80,
     flexDirection: 'row',
     marginTop: 1,
     padding: 10,

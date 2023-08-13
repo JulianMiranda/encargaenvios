@@ -11,6 +11,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {ThemeContext} from '../../context/theme/ThemeContext';
 import {Screens} from '../../screens/Login/LoginSystemScreen';
 import {Platform} from 'react-native';
+import {isIphoneXorAbove} from '../../utils/isIphone';
 
 interface Props {
   setScreen: (screen: Screens) => void;
@@ -98,7 +99,7 @@ export const Info = ({setScreen, confirmGoogle}: Props) => {
 const styles = StyleSheet.create({
   buttons: {
     position: 'absolute',
-    bottom: Platform.OS === 'ios' ? 150 : 120,
+    bottom: isIphoneXorAbove ? 150 : 110,
     width: '100%',
   },
   button1: {

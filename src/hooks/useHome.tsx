@@ -37,7 +37,7 @@ export const useHome = () => {
   const [lastCategories, setLastCategories] = useState<any[]>([]);
 
   const bodyPromos = {
-    filter: {status: ['=', true]},
+    filter: {status: ['=', true], owner: ['=', 'ENCARGA']},
     sort: {updatedAt: 'ASC'},
     population: [
       {

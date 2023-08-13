@@ -71,8 +71,8 @@ export const loginStyles = StyleSheet.create({
   viewPhoneInput: {marginLeft: 20},
   buttonConfirm: {
     padding: 5,
+    borderRadius: 50,
     paddingHorizontal: 10,
-    borderRadius: 6,
     alignSelf: 'center',
     marginTop: 38,
     width: 190,
@@ -81,7 +81,7 @@ export const loginStyles = StyleSheet.create({
   buttonConfirmResend: {
     padding: 5,
     paddingHorizontal: 10,
-    borderRadius: 6,
+    borderRadius: 50,
     alignSelf: 'center',
     marginTop: 38,
   },
@@ -106,14 +106,14 @@ export const loginStyles = StyleSheet.create({
     borderColor: '#bb4747',
   },
   nameTextInput: {
-    borderRadius: 10,
+    borderRadius: 25,
     marginHorizontal: 10,
     marginBottom: 20,
     backgroundColor: '#f1f1f1',
     height: 50,
     fontSize: 22,
     color: 'black',
-    paddingLeft: 10,
+    paddingLeft: 25,
   },
   codeContainer: {
     flex: 1,

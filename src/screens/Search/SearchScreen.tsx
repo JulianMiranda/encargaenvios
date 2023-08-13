@@ -77,6 +77,8 @@ export const SearchScreen = () => {
             value={searchQuery}
             onSubmitEditing={onSearch}
             style={styles.textBackground}
+            numberOfLines={1}
+            multiline={false}
             inputStyle={{height: 40, alignSelf: 'center'}}
           />
         </Animated.View>
