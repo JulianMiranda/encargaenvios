@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useEffect, useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   ScrollView,
   View,
@@ -8,7 +8,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {NodeCarousel} from '../../components/home/NodeCarousel';
 import {useHome} from '../../hooks/useHome';
 import {Rebajas} from '../../components/home/Rebajas';
 import {HomeCategories} from '../../components/home/HomeCategories';
@@ -16,12 +15,13 @@ import {PromoUp} from '../../components/home/PromoUp';
 import {PromoDown} from '../../components/home/PromoDown';
 import {CategoryCardRecomended} from '../../components/home/CategoryCardRecomended';
 import {useCategoryRecomendedPaginated} from '../../hooks/useCategoryRecomendedPaginated';
-import {ErrorHome} from '../../components/home/ErrorHome';
 import SplashScreen from 'react-native-splash-screen';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {Modalize} from 'react-native-modalize';
 import {SearchModalize} from './SearchModalize';
 import {useNavigation} from '@react-navigation/native';
+import {NodesList} from '../../components/home/NodesList';
+import {MostSales} from '../../components/home/MostSales';
 
 const {width, height} = Dimensions.get('window');
 
@@ -30,24 +30,45 @@ export const HomeScreen = () => {
   const {
     nodes,
     offers,
-    errorHome,
     lastCategories,
     mostSaleLastMonth,
     promoUp,
-    loaoadByError,
+    mainCategories,
     promoDown,
+    nodesLoading,
+    loadNodes,
+    loadPromoUp,
+    loadHome,
+    loadMainCategories,
+    mainCategoriesLoading,
   } = useHome();
 
   const {categoryRecomendedList, loadCategoriesRecomended} =
     useCategoryRecomendedPaginated();
   const modalizeRef = useRef<Modalize>(null);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
 
   useEffect(() => {
-    SplashScreen.hide();
+    if (!nodesLoading && !mainCategoriesLoading) {
+      SplashScreen.hide();
+    }
+  }, [nodesLoading, mainCategoriesLoading]);
+  useEffect(() => {
+    loadPromoUp();
+    loadNodes();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    loadMainCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    loadHome();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const isCloseToBottom = ({
     layoutMeasurement,
     contentOffset,
@@ -102,8 +123,33 @@ export const HomeScreen = () => {
         }}
         style={{}}>
         <PromoUp promoUp={promoUp} />
-
-        {nodes.slice(0, 2).map((node, index) => (
+        <NodesList nodes={nodes} />
+        {mainCategories.length > 0 && <MostSales categories={mainCategories} />}
+        {offers.length > 0 && <Rebajas offers={offers} />}
+        {mostSaleLastMonth.length > 0 && (
+          <HomeCategories
+            data={mostSaleLastMonth}
+            title={'TOP VENTAS'}
+            color={'#96D573'}
+          />
+        )}
+        <View style={{marginBottom: -100, zIndex: 100}}>
+          {lastCategories.length > 0 && (
+            <HomeCategories
+              data={lastCategories}
+              title={'LO ULTIMO'}
+              color={'#8673D5'}
+            />
+          )}
+        </View>
+        <PromoDown imagesPromoFinal={promoDown} />
+        <View style={{marginTop: -25}}>
+          <CategoryCardRecomended
+            categoryRecomendedList={categoryRecomendedList}
+            promoDown={promoDown}
+          />
+        </View>
+        {/*  {nodes.slice(0, 2).map((node, index) => (
           <NodeCarousel key={index} node={node} />
         ))}
         {offers.length > 0 && <Rebajas offers={offers} />}
@@ -137,7 +183,7 @@ export const HomeScreen = () => {
             categoryRecomendedList={categoryRecomendedList}
             promoDown={promoDown}
           />
-        </View>
+        </View> */}
         <View style={{height: 100}} />
       </ScrollView>
       <Modalize

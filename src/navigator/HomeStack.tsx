@@ -4,11 +4,14 @@ import {HomeScreen} from '../screens/Home/HomeScreen';
 import {Category} from '../interfaces/CategoryResponse.interface';
 import {CategoryScreen} from '../screens/Home/CategoryScreen';
 import {OffersScreen} from '../screens/Home/OffersScreen';
+import {CategoryListScreen} from '../screens/Home/CategoryListScreen';
+import {Node} from '../interfaces/Node.interface';
 
 export type RootStackParams = {
   HomeScreen: undefined;
   OffersScreen: undefined;
   CategoryScreen: {category: Category};
+  CategoryListScreen: {node: Node};
 };
 
 const Stack = createStackNavigator<RootStackParams>();
@@ -28,6 +31,15 @@ export const HomeStack = () => {
       <Stack.Screen
         name="CategoryScreen"
         component={CategoryScreen}
+        options={{
+          headerShown: false,
+          /* 	title: 'Home',
+					headerBackTitleVisible: false */
+        }}
+      />
+      <Stack.Screen
+        name="CategoryListScreen"
+        component={CategoryListScreen}
         options={{
           headerShown: false,
           /* 	title: 'Home',

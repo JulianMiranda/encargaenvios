@@ -1,3 +1,5 @@
+import {Image} from './Image.interface';
+
 export interface NodePaginated {
   count: number;
   page: number;
@@ -8,4 +10,5 @@ export interface NodePaginated {
 export interface Node {
   name: string;
   id: string;
+  image: Image;
 }

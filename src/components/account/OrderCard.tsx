@@ -17,7 +17,7 @@ interface PropsNavigation
 export const OrderCard = ({order}: Props) => {
   const {car, currency, cost, trackcode} = order;
 
-  const navigation = useNavigation<PropsNavigation>();
+  const navigation = useNavigation<any>();
 
   return (
     <>

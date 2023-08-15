@@ -45,10 +45,9 @@ export const useCategoryRecomendedPaginated = () => {
     }
   };
 
-  useEffect(() => {
+  /*   useEffect(() => {
     loadCategoriesRecomended();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []); */
 
   return {
     isLoading,
