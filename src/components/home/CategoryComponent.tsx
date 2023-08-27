@@ -9,10 +9,8 @@ import {
   StyleSheet,
   ScrollView,
   Image,
-  Platform,
 } from 'react-native';
 import {ThemeContext} from '../../context/theme/ThemeContext';
-import {FadeInImage} from '../common/FadeInImage';
 import {useGetModalizeProps} from '../../hooks/useGetModalizeProps';
 import {ShopContext} from '../../context/shop/ShopContext';
 import {SetItemCar} from '../shop/SetItemCar';
@@ -22,8 +20,6 @@ import {useNavigation} from '@react-navigation/native';
 import {DescriptionCategory} from './DescriptionCategory';
 import {AviablesColors} from './AviablesColors';
 import {InfoCategory} from './InfoCategory';
-import {RootStackParams} from '../../navigator/ShopStack';
-import {StackNavigationProp} from '@react-navigation/stack';
 import {PricesView} from './PricesView';
 import {Slider} from './Slider';
 import {Image as PImage} from '../../interfaces/Image.interface';
@@ -33,10 +29,10 @@ import {isIphoneXorAbove} from '../../utils/isIphone';
 interface Props {
   category: Category;
 }
-
-interface PropsNavigation
-  extends StackNavigationProp<RootStackParams, 'ShopScreen'> {}
-
+interface SubcatNames {
+  cant: number;
+  name: string;
+}
 const {height} = Dimensions.get('window');
 export const CategoryComponent = ({category}: Props) => {
   const {
@@ -58,7 +54,8 @@ export const CategoryComponent = ({category}: Props) => {
   } = useContext(ThemeContext);
 
   const {isLoading, subcategoriesAsc} = useGetModalizeProps(category);
-  const navigation = useNavigation<PropsNavigation>();
+  const navigation = useNavigation<any>();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [imageFront, setImageFront] = useState<PImage[]>([image]);
   const [cantidad, setCantidad] = useState<number>(1);
 
@@ -66,6 +63,9 @@ export const CategoryComponent = ({category}: Props) => {
   const [imageIndex, setImageIndex] = useState(image);
 
   const [colorSelected, setColorSelected] = useState<string[]>([]);
+  const [subcategoriesNames, setSubcategoriesNames] = useState<SubcatNames[]>(
+    [],
+  );
 
   const fechaInicio = new Date(createdAt).getTime();
   const fechaFin = new Date().getTime();
@@ -87,14 +87,46 @@ export const CategoryComponent = ({category}: Props) => {
     if (aviableColors && aviableColors.length === 1) {
       setColorSelected(aviableColors);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     subcategoriesAsc.map(subcat =>
       subcat.images.map(imageSubc => imageFront.push(imageSubc)),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subcategoriesAsc]);
 
+  useEffect(() => {
+    const namesSubcat = subcategoriesAsc.map(subcat => [subcat.name]);
+    const namesCounted = namesSubcat.map(name => {
+      return {name, cant: contadorElemento(namesSubcat, name[0])};
+    });
+
+    const namesFilter: any[] = [];
+    const namesFiltered: any[] = [];
+    namesCounted.map(art => {
+      if (namesFilter.includes(JSON.stringify(art))) {
+      } else {
+        namesFilter.push(JSON.stringify(art));
+        namesFiltered.push(art);
+      }
+    });
+    setSubcategoriesNames(namesFiltered);
+  }, [subcategoriesAsc]);
+
+  const contadorElemento = (matrizValores: any[], busqueda: string) => {
+    let acumulador = 0;
+
+    for (let i = 0; i < matrizValores.length; i++) {
+      for (let j = 0; j < matrizValores[i].length; j++) {
+        if (matrizValores[i][j] === busqueda) {
+          acumulador++;
+        }
+      }
+    }
+    return acumulador;
+  };
   return (
     <>
       <BackButton navigation={navigation} />
@@ -138,9 +170,11 @@ export const CategoryComponent = ({category}: Props) => {
         {subcategoriesAsc.length > 1 && (
           <View style={styles.contenidoView}>
             <Text style={styles.contenidoText}>Contenido</Text>
-            {subcategoriesAsc.map((subcat, index) => (
+            {subcategoriesNames.map((subcat, index) => (
               <View key={index}>
-                <Text style={{color: '#000'}}>{subcat.name}</Text>
+                <Text style={{color: '#000'}}>
+                  {subcat.cant} {subcat.name}
+                </Text>
               </View>
             ))}
             <View style={styles.divider} />

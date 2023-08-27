@@ -106,18 +106,29 @@ export const CategoryCardHomeSales = ({item, index}: Props) => {
             style={{
               position: 'absolute',
               right: 5,
-              bottom: 20,
+              bottom: 15,
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
+              borderWidth: 1,
+              borderColor: 'rgba(0,0,0,0.3)',
+              borderRadius: 6,
+              paddingHorizontal: 5,
+              padding: 2,
             }}>
             <AwesomeIcon
               name={icon}
-              size={14}
-              color={'#c1c1c1'}
+              size={12}
+              color={'rgba(0,0,0,0.3)'}
               style={{marginRight: 5}}
             />
-            <Text style={{fontSize: 10}} numberOfLines={1}>
+            <Text
+              style={{
+                fontSize: 10,
+                fontWeight: 'bold',
+                color: 'rgba(0,0,0,0.3)',
+              }}
+              numberOfLines={1}>
               {argument}
             </Text>
           </View>

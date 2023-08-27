@@ -454,6 +454,7 @@ export const ShopProvider = ({children}: any) => {
         cost: total,
         car: cleanCar,
         selectedCarnet,
+        owner: 'Julian',
       });
       dispatch({type: 'add_car_loading', payload: false});
       return true;
