@@ -23,7 +23,7 @@ export const ShopStepThree = ({
   totalShop,
   selectedCarnet,
 }: Props) => {
-  const {loadCards, EfectRef} = useCard();
+  const {EfectRef} = useCard();
   const [paymentUrl, setPaymentUrl] = useState('');
   const {user, updateUser} = useContext(AuthContext);
   const card = {};

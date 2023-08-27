@@ -4,16 +4,11 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {Text, TouchableOpacity, View} from 'react-native';
 import {BackButton} from '../../components/common/BackButton';
 import {useNavigation} from '@react-navigation/native';
-import {useCard} from '../../hooks/useCard';
 
 interface Props extends StackScreenProps<RootStackParams, 'ShowCard'> {}
 export const ShowCard = (props: Props) => {
   const {route} = props;
   const {card} = route.params;
-
-  console.log('card', card);
-
-  const {DeleteCard} = useCard();
 
   const navigation = useNavigation<any>();
   return (
@@ -51,7 +46,7 @@ export const ShowCard = (props: Props) => {
       </View>
       <TouchableOpacity
         activeOpacity={0.8}
-        onPress={() => DeleteCard({card: {token: card.token}, user: {id: 1}})}
+        onPress={() => console.log('PRess')}
         style={{padding: 5, marginLeft: 10}}>
         <Text style={{color: 'red'}}>Eliminar tarjeta</Text>
       </TouchableOpacity>

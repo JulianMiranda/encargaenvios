@@ -8,6 +8,7 @@ import {
   View,
 } from 'react-native';
 import {TopScrollGradient} from './TopScrollGradient';
+import {STRING} from '../../forkApps/forkApps';
 
 const {height} = Dimensions.get('window');
 
@@ -17,8 +18,8 @@ export const AboutApp = () => {
       <TopScrollGradient title="Acerca de la app">
         <View style={{padding: 10}}>
           <Text style={{...styles.text, fontSize: 26, marginTop: 70}}>
-            • encarga Envios es una Agencia de Envíos radicada en Ecuador con
-            destino a Cuba.
+            • {STRING.app} Envios es una Agencia de Envíos radicada en Ecuador
+            con destino a Cuba.
           </Text>
           <Text style={{...styles.text18}}>
             • Su compra será realizada en el momento indicado debido al orden
@@ -39,15 +40,15 @@ export const AboutApp = () => {
             posible.
           </Text>
           <Text style={{...styles.text18}}>
-            • encarga Envios se reserva el derecho de admisión tanto de clientes
-            como de pedidos.
+            • {STRING.app} Envios se reserva el derecho de admisión tanto de
+            clientes como de pedidos.
           </Text>
 
           <Text style={{...styles.text18}}>
             • No podemos ofrecer timpo exacto de entrega ya que es Aduanas de
             Cuba quien maneja el tiempo de procesamiento, de igual forma si su
             pedido no ha llegado antes de 120 días ponerse en contacto con el
-            equipo de encarga Envios para proceder a la correspondiente
+            equipo de {STRING.app} Envios para proceder a la correspondiente
             reclamación de su pedido.
           </Text>
 
@@ -84,15 +85,16 @@ export const AboutApp = () => {
             posible.
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
-            • encarga Envios se hace responsable de sus envíos, una vez
+            • {STRING.app} Envios se hace responsable de sus envíos, una vez
             entregados a Aduanas de Cuba y sigan su curso de destino hasta su
             domicilio.
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
             • Algunos artículos pagan servicios de aduanas en la moneda del país
             (CUP Cuba) y algunos electrodomésticos además pagan aranceles, por
-            lo que sugerimos consultar la ley de aduana antes de comprar,
-            encarga Envios NO se hace responsable de estos pagos.
+            lo que sugerimos consultar la ley de aduana antes de comprar,{' '}
+            {STRING.app}
+            Envios NO se hace responsable de estos pagos.
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
             • Al recibir el paquete o bulto debe estar debidamente sellado, debe
@@ -155,7 +157,7 @@ export const AboutApp = () => {
               fontSize: 20,
               textAlign: 'right',
             }}>
-            Gracias por preferir encarga Envios
+            Gracias por preferir {STRING.app} Envios
           </Text>
         </View>
         <View

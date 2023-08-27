@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useRef, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   ActivityIndicator,
   Dimensions,
@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ThemeContext} from '../../context/theme/ThemeContext';
-import {ModalizeWebView} from 'react-native-modalize-webview';
 import WebView from 'react-native-webview';
+import {STRING} from '../../forkApps/forkApps';
 
 interface Props {
   terms: boolean;
@@ -85,7 +85,7 @@ export const TermsButton = ({terms, setTerms}: Props) => {
             </TouchableOpacity>
             <WebView
               style={{flex: 1}}
-              source={{uri: 'https://encarga-terms.web.app/'}}
+              source={{uri: STRING.terms}}
               renderLoading={() => <ActivityIndicator />}
             />
           </View>

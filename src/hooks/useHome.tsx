@@ -11,6 +11,7 @@ import {useToast} from 'react-native-toast-notifications';
 import {MainCategoriesResponse} from '../interfaces/MainCategoriesResponse.interface';
 import {AuthContext} from '../context/auth/AuthContext';
 import {Category} from '../interfaces/CategoryResponse.interface';
+import {STRING} from '../forkApps/forkApps';
 
 interface Error {
   errorNode: boolean;
@@ -44,7 +45,7 @@ export const useHome = () => {
   const [mainCategories, setMainCategories] = useState<Category[]>([]);
 
   const bodyPromos = {
-    filter: {status: ['=', true], owner: ['=', 'ENCARGA']},
+    filter: {status: ['=', true], owner: ['=', STRING.APP]},
     sort: {updatedAt: 'ASC'},
     population: [
       {

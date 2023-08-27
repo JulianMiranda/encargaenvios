@@ -17,6 +17,7 @@ import {useNavigation} from '@react-navigation/native';
 import {BackButton} from '../../components/common/BackButton';
 import {NoPropsInvited} from '../../components/common/NoPropsInvited';
 import {TopGradient} from '../../components/common/TopGradient';
+import {STRING} from '../../forkApps/forkApps';
 
 export const NotificationScreen = () => {
   const {status, user, updateReciveNotifications} = useContext(AuthContext);
@@ -55,8 +56,8 @@ export const NotificationScreen = () => {
         setIsLoading(false);
         toast.show(
           reciveNot
-            ? 'Te mantendremos informado de todas las novedades de encarga Envios'
-            : 'Ya no recibirás notificaciones de encarga Envios',
+            ? `Te mantendremos informado de todas las novedades de ${STRING.app} Envios`
+            : `Ya no recibirás notificaciones de ${STRING.app} Envios`,
           {
             type: 'normal',
             placement: 'top',
@@ -141,7 +142,7 @@ export const NotificationScreen = () => {
       <TopGradient text="Notificaciones" />
       <View style={{marginTop: 80}} />
       <Text style={styles.title}>
-        encarga Envios quiere mantenerte informado
+        {STRING.app} Envios quiere mantenerte informado
       </Text>
       <View
         style={{

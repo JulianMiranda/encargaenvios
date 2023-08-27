@@ -17,6 +17,7 @@ import {
   setMyShopInvitedCar,
   updateItemInvitedCar,
 } from '../../utils/handleItemInvited';
+import {STRING} from '../../forkApps/forkApps';
 
 type ShopContextProps = {
   addCarLoading: boolean;
@@ -454,7 +455,7 @@ export const ShopProvider = ({children}: any) => {
         cost: total,
         car: cleanCar,
         selectedCarnet,
-        owner: 'Julian',
+        owner: STRING.owner,
       });
       dispatch({type: 'add_car_loading', payload: false});
       return true;

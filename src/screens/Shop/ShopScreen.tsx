@@ -32,6 +32,7 @@ import {AuthContext} from '../../context/auth/AuthContext';
 import {NoPropsInvited} from '../../components/common/NoPropsInvited';
 import {TermsButton} from '../../components/shop/TermsButton';
 import {isIphoneXorAbove} from '../../utils/isIphone';
+import {STRING} from '../../forkApps/forkApps';
 
 const {width, height} = Dimensions.get('window');
 
@@ -223,11 +224,11 @@ export const ShopScreen = () => {
   };
   useEffect(() => {
     console.log('Cambio estado statePage', statePage);
-    if (statePage === 'https://success-shop-baria.web.app/') {
+    if (statePage === STRING.success_url) {
       console.log('Navegar a Home');
       handleButton();
       /* navigation.navigate('Tienda', {screen: 'HomeScreen'}); */
-    } else if (statePage === 'https://failure-shop-baria.web.app/') {
+    } else if (statePage === STRING.failure_url) {
       console.log('Quedarse por false');
       setProgress(progress + 1);
     } else {

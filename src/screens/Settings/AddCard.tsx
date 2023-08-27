@@ -16,14 +16,14 @@ export const AddCard = () => {
 
   const {user: userApp} = useContext(AuthContext);
 
-  const {isLoading, AddNewCard, EfectRef, InitReference} = useCard();
+  const {AddNewCard, EfectRef} = useCard();
   const [user, setUser] = useState({
     id: '1',
-    email: 'julian@test.com',
+    email: 'ejemplo@test.com',
   });
   const [card, setCard] = useState({
     number: '4200000000000001',
-    holder_name: 'Julian Miranda',
+    holder_name: 'Pepe García',
     expiry_month: 9,
     expiry_year: 2025,
     cvc: '123',

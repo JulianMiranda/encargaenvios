@@ -69,6 +69,7 @@ export const HomeScreen = () => {
     loadHome();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   const isCloseToBottom = ({
     layoutMeasurement,
     contentOffset,

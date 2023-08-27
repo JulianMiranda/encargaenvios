@@ -2,6 +2,7 @@ import React from 'react';
 import {Dimensions} from 'react-native';
 import {Linking, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {TopScrollGradient} from './TopScrollGradient';
+import {STRING} from '../../forkApps/forkApps';
 
 const {height} = Dimensions.get('window');
 
@@ -46,15 +47,16 @@ export const TandC = () => {
             posible.
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
-            • encarga Envios se hace responsable de sus envíos, una vez
+            • {STRING.app} Envios se hace responsable de sus envíos, una vez
             entregados a Aduanas de Cuba y sigan su curso de destino hasta su
             domicilio.
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
             • Algunos artículos pagan servicios de aduanas en la moneda del país
             (CUP Cuba) y algunos electrodomésticos además pagan aranceles, por
-            lo que sugerimos consultar la ley de aduana antes de comprar,
-            encarga Envios NO se hace responsable de estos pagos.
+            lo que sugerimos consultar la ley de aduana antes de comprar,{' '}
+            {STRING.app}
+            Envios NO se hace responsable de estos pagos.
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
             • Al recibir el paquete o bulto debe estar debidamente sellado, debe
@@ -112,7 +114,7 @@ export const TandC = () => {
             Agradecemos su confianza
           </Text>
           <Text style={{...styles.text, fontSize: 20, textAlign: 'right'}}>
-            Gracias por preferir encarga Envios
+            Gracias por preferir {STRING.app} Envios
           </Text>
         </View>
         <View

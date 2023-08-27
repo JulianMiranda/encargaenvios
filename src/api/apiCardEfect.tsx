@@ -2,14 +2,15 @@ import axios from 'axios';
 import moment from 'moment';
 import base64 from 'react-native-base64';
 import {sha256} from 'react-native-sha256';
+import {STRING} from '../forkApps/forkApps';
 
 const baseURL = 'https://noccapi-prod.paymentez.com';
 
 /* const NUVEISTGECCLIENT = 'rvpKAv2tc49x6YL38fvtv5jJxRRiPs';
 const codeClient = 'NUVEISTG-EC-CLIENT'; */
 
-const NUVEISTGECSERVER = '1ebDpAnXvxI8vxkiKSqnSSBOjlTw5Z';
-const codeServer = 'BARIA-EC-SERVER';
+const NUVEISTGECSERVER = STRING.nuveiSTGServer;
+const codeServer = STRING.codeServer;
 const apiCardEfect = axios.create({baseURL});
 
 apiCardEfect.interceptors.request.use(async config => {

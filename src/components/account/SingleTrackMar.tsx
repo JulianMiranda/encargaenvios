@@ -4,6 +4,7 @@ import {TrackStep} from './TrackStep';
 import {Code, Trackcode} from '../../interfaces/Order.interface';
 import {stateOrderMar} from '../../utils/stateOrderMar';
 import {ThemeContext} from '../../context/theme/ThemeContext';
+import {STRING} from '../../forkApps/forkApps';
 
 interface Props {
   trackcode: Trackcode;
@@ -79,8 +80,8 @@ export const SingleTrackMar = ({
             <TrackStep
               text={
                 !state.AGENCY
-                  ? 'Encarga está preparando tu envío'
-                  : 'Despachado por Agencia de Envíos Encarga'
+                  ? `${STRING.app} está preparando tu envío`
+                  : `Despachado por Agencia de Envíos ${STRING.app}`
               }
               final={final === 'CONFIRMED'}
               fecha={dates.AGENCY}

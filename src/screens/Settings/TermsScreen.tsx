@@ -4,6 +4,7 @@ import WebView from 'react-native-webview';
 import {BackButton} from '../../components/common/BackButton';
 import {useNavigation} from '@react-navigation/core';
 import {ThemeContext} from '../../context/theme/ThemeContext';
+import {STRING} from '../../forkApps/forkApps';
 
 export const TermsScreen = () => {
   const navigation = useNavigation();
@@ -15,7 +16,7 @@ export const TermsScreen = () => {
       <BackButton navigation={navigation} />
       <WebView
         source={{
-          uri: 'https://encarga-terms.web.app',
+          uri: STRING.terms,
         }}
         startInLoadingState
         renderLoading={() => (

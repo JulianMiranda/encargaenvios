@@ -22,6 +22,7 @@ import {Modalize} from 'react-native-modalize';
 import {LoginSystemScreen} from '../../screens/Login/LoginSystemScreen';
 import {ThemeContext} from '../../context/theme/ThemeContext';
 import {ChatContext} from '../../context/chat/ChatContext';
+import {STRING} from '../../forkApps/forkApps';
 
 interface PropsNavigation
   extends StackNavigationProp<RootStackParams, 'SettingsScreen'> {}
@@ -73,9 +74,6 @@ export default function SettingsOptions() {
       case 0:
         closeSesion();
         break;
-      case 1:
-        redirectWhatsapp();
-        break;
       case 2:
         redirectCorreo();
         break;
@@ -112,12 +110,7 @@ export default function SettingsOptions() {
     /*  loginAuth(); */
     modalizeRef.current?.open();
   };
-  const redirectWhatsapp = () => {
-    setOpenModal(false);
-    Linking.openURL(
-      'http://api.whatsapp.com/send?text=Hola 📦 *encarga Envios*, me podría ayudar?&phone=+593962914922',
-    );
-  };
+
   const deleteAccount = async () => {
     setOpenModal(false);
     if (status !== 'authenticated') {
@@ -135,7 +128,7 @@ export default function SettingsOptions() {
 
   const privacity = () => {
     setOpenModal(false);
-    Linking.openURL('https://encarga-politics.web.app');
+    Linking.openURL(STRING.politics);
   };
   const redirectCorreo = () => {
     setOpenModal(false);

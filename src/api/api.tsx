@@ -1,9 +1,9 @@
 import axios from 'axios';
 import {getHeaders} from './getHeaders';
+import {STRING} from '../forkApps/forkApps';
 
-//const baseURL = 'http://192.168.100.121:5001/api';
-/* const baseURL = 'https://bariaenvios-backend.herokuapp.com/api'; */
-const baseURL = 'https://www.bariaenviosapi.com/api';
+//const baseURL = 'http://192.168.0.5:5001/api';
+const baseURL = STRING.backendUrl;
 
 const api = axios.create({baseURL});
 

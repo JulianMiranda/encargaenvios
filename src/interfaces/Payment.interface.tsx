@@ -45,7 +45,7 @@ export interface Transaction {
   id: string;
   ltp_id: string;
   payment_method_type: string;
-  dev_reference: DevReference;
+  dev_reference: string;
   carrier_code: CarrierCode;
   current_status: CurrentStatus;
   amount: number;
@@ -67,10 +67,6 @@ export enum CurrentStatus {
   Approved = 'APPROVED',
   Cancelled = 'CANCELLED',
   Pending = 'PENDING',
-}
-
-export enum DevReference {
-  Baria = 'baria',
 }
 
 export enum InstallmentsType {
