@@ -32,7 +32,14 @@ export const SearchResults = ({search}: Props) => {
       search: {text: searchWord.trim(), fields: ['textSearch']},
       population: [
         {
-          path: 'category',
+          path: 'nodes',
+          filter: {status: true},
+          fields: {
+            name: true,
+          },
+        },
+        {
+          path: 'subcategories',
           filter: {status: true},
           fields: {
             name: true,
