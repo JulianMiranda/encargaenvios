@@ -1,11 +1,13 @@
+import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Category} from '../../interfaces/CategoryResponse.interface';
 import {RootStackParams} from '../../navigator/HomeStack';
 import {formatToCurrency} from '../../utils/formatToCurrency';
 import {FadeInImage} from '../common/FadeInImage';
+import {PromoString} from './PromoString';
+import {useNodeInPromo} from '../../hooks/useNodeInPromo';
 
 interface Props {
   offer: Category;
@@ -14,11 +16,12 @@ interface Props {
 interface PropsNavigation
   extends StackNavigationProp<RootStackParams, 'CategoryScreen'> {}
 export const OfferCard = ({offer}: Props) => {
-  const {name, image, priceDiscount, price} = offer;
+  const {name, image, priceDiscount, price, nodes} = offer;
   const navigation = useNavigation<PropsNavigation>();
 
   const discount = (100 * (price - priceDiscount)) / price;
 
+  const {nodeInPromo} = useNodeInPromo(nodes);
   return (
     <>
       <View style={styles.line} />
@@ -32,7 +35,10 @@ export const OfferCard = ({offer}: Props) => {
           });
         }}>
         <View style={styles.imageView}>
-          <FadeInImage uri={image.url} style={styles.imageProps} />
+          <View style={styles.imageContainer}>
+            <FadeInImage uri={image.url} style={styles.imageProps} />
+            {nodeInPromo && <PromoString />}
+          </View>
 
           <View style={{flex: 4, justifyContent: 'space-between'}}>
             <View style={styles.discountText}>
@@ -74,8 +80,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 2,
   },
-  imageProps: {
+  imageContainer: {
     flex: 2,
+    width: '100%',
+    height: 100,
+    alignSelf: 'flex-start',
+  },
+  imageProps: {
     width: '100%',
     height: 100,
     alignSelf: 'flex-start',

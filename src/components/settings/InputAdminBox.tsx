@@ -1,4 +1,4 @@
-import React, {useState, useContext, useRef, useEffect} from 'react';
+import React, {useState, useContext, useRef} from 'react';
 import {
   StyleSheet,
   View,
@@ -10,54 +10,38 @@ import {
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ChatContext} from '../../context/chat/ChatContext';
-import {Keyboard} from 'react-native';
 import {Chat} from '../../interfaces/Chat.interface';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface Props {
   userChat: Chat;
+  keyboardOut: boolean;
 }
 
-export const InputAdminBox = ({userChat}: Props) => {
+export const InputAdminBox = ({userChat, keyboardOut}: Props) => {
   const {sendAdminMessage} = useContext(ChatContext);
   const [message, setMessage] = useState('');
-  const [margen, setMargen] = useState(0);
   const textInputReference = useRef(null);
+  const {bottom} = useSafeAreaInsets();
 
   const onSendPres = () => {
+    if (message === '') {
+      return;
+    }
     setMessage('');
     sendAdminMessage(message, userChat);
   };
-
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      keyShow,
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      keyHide,
-    );
-
-    return () => {
-      keyboardDidShowListener.remove();
-      keyboardDidHideListener.remove();
-    };
-  }, []);
-
-  const keyShow = () => {
-    console.log('keyboard Afuera');
-    setMargen(100);
-  };
-  const keyHide = () => {
-    console.log('keyboard Adentro');
-    setMargen(0);
-  };
+  const bottomValue = Platform.OS === 'android' ? 80 : 0;
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={margen}>
-      <View style={styles.container}>
+      keyboardVerticalOffset={0}>
+      <View
+        style={{
+          ...styles.container,
+          bottom: keyboardOut ? bottomValue : bottom + 60,
+        }}>
         <View style={styles.mainContainer}>
           <FontAwesome5 name="laugh-beam" size={24} color="grey" />
           <TextInput
@@ -67,7 +51,7 @@ export const InputAdminBox = ({userChat}: Props) => {
             value={message}
             onChangeText={setMessage}
             style={styles.textInput}
-            placeholder="Type a message"
+            placeholder="Escribe un mensaje..."
           />
           {/* <Entypo
 						name="attachment"

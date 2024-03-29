@@ -1,4 +1,4 @@
-import React, {useState, useContext, useRef, useEffect} from 'react';
+import React, {useState, useContext, useRef} from 'react';
 import {
   StyleSheet,
   View,
@@ -6,75 +6,56 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Platform,
-  BackHandler,
 } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ChatContext} from '../../context/chat/ChatContext';
-import {Keyboard} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-const InputBox = () => {
+const InputBox = ({keyboardOut}: {keyboardOut: boolean}) => {
   const {sendMessage} = useContext(ChatContext);
   const [message, setMessage] = useState('');
-  const [margen, setMargen] = useState(0);
   const textInputReference = useRef(null);
+  const {bottom} = useSafeAreaInsets();
 
   const onSendPres = () => {
-    setMessage('');
-    sendMessage(message);
+    if (message === '') {
+      return;
+    } else {
+      setMessage('');
+      sendMessage(message);
+    }
   };
-
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      keyShow,
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      keyHide,
-    );
-
-    return () => {
-      keyboardDidShowListener.remove();
-      keyboardDidHideListener.remove();
-    };
-  }, []);
-
-  const keyShow = () => {
-    console.log('keyboard Afuera');
-    setMargen(100);
-  };
-  const keyHide = () => {
-    console.log('keyboard Adentro');
-    setMargen(0);
-  };
+  const bottomValue = Platform.OS === 'android' ? 80 : 0;
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      keyboardVerticalOffset={margen}>
-      <View style={styles.container}>
+      keyboardVerticalOffset={0}>
+      <View
+        style={{
+          ...styles.container,
+          bottom: keyboardOut ? bottomValue : bottom + 60,
+        }}>
         <View style={styles.mainContainer}>
           <FontAwesome5 name="laugh-beam" size={24} color="grey" />
           <TextInput
             ref={textInputReference}
-            autoFocus
             multiline
             value={message}
             onChangeText={setMessage}
             style={styles.textInput}
-            placeholder="Type a message"
+            placeholder="Escribe un mensaje..."
           />
-          {/* <Entypo
-						name="attachment"
-						size={24}
-						color="grey"
-						style={{marginHorizontal: 10}}
-					/>
-					{!message && <Fontisto name="camera" size={24} color="grey" />} */}
         </View>
-        <TouchableOpacity onPress={onSendPres}>
-          <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          onPress={onSendPres}
+          activeOpacity={message ? 0.8 : 1}>
+          <View
+            style={{
+              ...styles.buttonContainer,
+              backgroundColor: message ? '#4EB2E4' : '#DFDFDF',
+            }}>
             <MaterialCommunityIcons name="send" size={24} color="white" />
           </View>
         </TouchableOpacity>
@@ -98,7 +79,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonContainer: {
-    backgroundColor: '#4EB2E4',
     borderRadius: 50,
     width: 50,
     height: 50,

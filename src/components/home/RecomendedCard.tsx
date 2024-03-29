@@ -7,6 +7,8 @@ import {Category} from '../../interfaces/CategoryResponse.interface';
 import {RootStackParams} from '../../navigator/HomeStack';
 import {formatToCurrency} from '../../utils/formatToCurrency';
 import {FadeInImage} from '../common/FadeInImage';
+import {useNodeInPromo} from '../../hooks/useNodeInPromo';
+import {PromoString} from './PromoString';
 
 interface Props {
   category: Category;
@@ -16,10 +18,12 @@ interface Props {
 interface PropsNavigation
   extends StackNavigationProp<RootStackParams, 'CategoryScreen'> {}
 export const RecomendedCard = ({category, index}: Props) => {
-  const {name, image, priceDiscount, price} = category;
+  const {name, image, priceDiscount, price, nodes} = category;
 
   const {setItem} = useContext(ShopContext);
   const navigation = useNavigation<PropsNavigation>();
+
+  const {nodeInPromo} = useNodeInPromo(nodes);
 
   const shopNow = async () => {
     await setItem({category: {...category}, cantidad: 1});
@@ -39,7 +43,10 @@ export const RecomendedCard = ({category, index}: Props) => {
           });
         }}>
         <View style={styles.imageView}>
-          <FadeInImage uri={image.url} style={styles.imageProps} />
+          <View style={styles.imageProps}>
+            <FadeInImage uri={image.url} style={styles.imageProps} />
+            {nodeInPromo && <PromoString />}
+          </View>
 
           <View style={{flex: 4}}>
             <View style={{flex: 1}}>

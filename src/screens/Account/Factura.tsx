@@ -43,6 +43,8 @@ export const Factura = ({carItem, selectedCarnet, codes, number}: Props) => {
       animationType: 'slide-in',
     });
   };
+  console.log(selectedCarnet[0]);
+
   return (
     <>
       <View style={{}}>
@@ -128,11 +130,12 @@ export const Factura = ({carItem, selectedCarnet, codes, number}: Props) => {
           </View>
           <View style={styles.row}>
             <View style={styles.titleDark}>
-              <Text style={styles.text}>Entrega</Text>
+              <Text style={styles.text}>Entrega en</Text>
             </View>
             <View style={styles.contentDark}>
               <Text style={styles.text}>
-                Oficina de Correos {selectedCarnet[0].municipio}
+                Calle {selectedCarnet[0].address} #{selectedCarnet[0].number}.{' '}
+                {selectedCarnet[0].municipio}
               </Text>
             </View>
           </View>

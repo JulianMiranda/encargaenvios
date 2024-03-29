@@ -17,6 +17,7 @@ import {ShowCard} from '../screens/Settings/ShowCard';
 import {Card} from '../interfaces/Card.interface';
 import {Chat} from '../interfaces/Chat.interface';
 import {AdminPersonalChatScreen} from '../screens/Settings/AdminPersonalChatScreen';
+import {PromocodeScreen} from '../screens/Settings/PromocodeScreen';
 
 const Stack = createStackNavigator();
 
@@ -33,6 +34,7 @@ export type RootStackParams = {
   TermsScreen: undefined;
   MyCards: undefined;
   AddCard: undefined;
+  PromocodeScreen: {name?: string};
   ShowCard: {card: Card};
   AdminPersonalChatScreen: {userChat: Chat};
 };
@@ -151,6 +153,15 @@ export const SettingsStack = () => {
       <Stack.Screen
         name="AddCard"
         component={AddCard}
+        options={{
+          headerShown: false,
+          /* title: 'Orden',
+          headerBackTitleVisible: false, */
+        }}
+      />
+      <Stack.Screen
+        name="PromocodeScreen"
+        component={PromocodeScreen}
         options={{
           headerShown: false,
           /* title: 'Orden',

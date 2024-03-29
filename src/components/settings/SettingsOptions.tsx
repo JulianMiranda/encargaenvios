@@ -23,6 +23,7 @@ import {LoginSystemScreen} from '../../screens/Login/LoginSystemScreen';
 import {ThemeContext} from '../../context/theme/ThemeContext';
 import {ChatContext} from '../../context/chat/ChatContext';
 import {STRING} from '../../forkApps/forkApps';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface PropsNavigation
   extends StackNavigationProp<RootStackParams, 'SettingsScreen'> {}
@@ -43,6 +44,7 @@ type Key =
   | 'aduana'
   | 'perfil'
   | 'cards'
+  | 'promocode'
   | 'token';
 
 const {width} = Dimensions.get('window');
@@ -51,6 +53,7 @@ export default function SettingsOptions() {
   const navigation = useNavigation<PropsNavigation>();
   const {user, status, logOut, loginAuth} = useContext(AuthContext);
   const modalizeRef = useRef<Modalize>(null);
+  const {top} = useSafeAreaInsets();
   const {emptyOrders} = useContext(OrderContext);
   const {emptyCar} = useContext(ShopContext);
   const {newMessages} = useContext(ChatContext);
@@ -189,7 +192,10 @@ export default function SettingsOptions() {
         sinOut();
         break;
       case 'cards':
-        navigation.navigate('MyCards');
+        navigation.navigate('PromocodeScreen');
+        break;
+      case 'promocode':
+        navigation.navigate('PromocodeScreen');
         break;
       case 'invitedLogin':
         invitedLogin();
@@ -258,7 +264,15 @@ export default function SettingsOptions() {
         />
       </ScrollView>
 
-      <Modalize modalStyle={{zIndex: 99999999, flex: 1}} ref={modalizeRef}>
+      <Modalize
+        modalStyle={{zIndex: 99999999, flex: 1}}
+        modalTopOffset={top}
+        disableScrollIfPossible
+        scrollViewProps={{
+          showsVerticalScrollIndicator: false,
+          scrollEnabled: false,
+        }}
+        ref={modalizeRef}>
         <LoginSystemScreen />
       </Modalize>
     </>
@@ -305,9 +319,9 @@ function generateOptions(selectedComponent: any, status: any) {
       iconSizeRight: 26,
       color: '#ecf024',
       onPress: () => selectedComponent('app'),
-      image: require('../../assets/Diapositiva2.png'),
+      image: require('../../assets/Diapositiva15.png'),
     },
-    /* {
+    {
       title: 'Información al comprar',
       iconType: 'material-community',
       iconNameLeft: 'shield-star-outline',
@@ -316,7 +330,7 @@ function generateOptions(selectedComponent: any, status: any) {
       color: '#b621e4',
       onPress: () => selectedComponent('about'),
       image: require('../../assets/Diapositiva3.png'),
-    }, */
+    },
 
     {
       title: 'Política de Privacidad',
@@ -358,6 +372,16 @@ function generateOptions(selectedComponent: any, status: any) {
       color: '#24A10A',
       onPress: () => selectedComponent('perfil'),
       image: require('../../assets/Diapositiva13.png'),
+    },
+    {
+      title: 'Promociones',
+      iconType: 'material-community',
+      iconNameLeft: 'cellphone-lock',
+      iconNameRight: 'arrow-top-right',
+      iconSizeRight: 26,
+      color: '#24A10A',
+      onPress: () => selectedComponent('promocode'),
+      image: require('../../assets/Diapositiva16.png'),
     },
     {
       title: 'Borrar mi Cuenta',

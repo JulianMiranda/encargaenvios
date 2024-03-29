@@ -24,12 +24,12 @@ export const CategoryCardRecomended = ({
           <View
             style={{
               zIndex: 100,
-              marginBottom: index % 4 === 0 && index !== 0 ? -50 : 0,
-              marginTop: index % 5 === 0 && index !== 0 ? -25 : 0,
+              marginBottom: index % 9 === 0 && index !== 0 ? 0 : 0,
+              marginTop: index % 10 === 0 && index !== 0 ? 0 : 0,
             }}>
             <RecomendedCard category={item} index={index} />
           </View>
-          {index % 4 === 0 && index !== 0 && (
+          {index % 9 === 0 && index !== 0 && (
             <View>
               <PromoDown imagesPromoFinal={promoDown} />
             </View>

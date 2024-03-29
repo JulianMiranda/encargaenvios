@@ -20,6 +20,10 @@ export const inputAnimationWidth = animVal.interpolate({
   inputRange: [0, 1],
   outputRange: ['0%', '90%'],
 });
+export const inputAnimationWidthSearch = animVal.interpolate({
+  inputRange: [0, 1],
+  outputRange: ['30%', '100%'],
+});
 export const inputAnimation = {
   transform: [
     {
@@ -33,6 +37,7 @@ export const inputAnimation = {
 
 export const animatedTransition = Animated.spring(animVal, {
   toValue: 1,
+  speed: 0.5,
   useNativeDriver: false,
 });
 

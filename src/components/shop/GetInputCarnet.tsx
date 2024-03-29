@@ -12,6 +12,7 @@ import {useCarnets} from '../../hooks/useCarnets';
 import {ThemeContext} from '../../context/theme/ThemeContext';
 import {CarnetComponent} from './CarnetComponent';
 import {Carnet} from '../../interfaces/CarnetResponse.interface';
+import {AnimatedText} from '../common/AnimatedText';
 
 interface Props {
   carnets: Carnet[];
@@ -49,10 +50,18 @@ export const GetInputCarnet = ({
   return (
     <>
       <View style={styles.title}>
-        <Text style={{fontSize: 18, color: '#000'}}>
-          Necesitamos datos de {cantCarnets()}{' '}
+        <View style={{}}>
+          <AnimatedText
+            text={`Necesitamos datos de ${cantCarnets()} ${
+              cantCarnets() < 2 ? 'destinatario' : 'destinatarios'
+            }`}
+            time={75}
+          />
+        </View>
+        {/*  <Text style={{fontSize: 18, color: '#000'}}>
+         {}{' '}
           {cantCarnets() < 2 ? 'destinatario' : 'destinatarios'}
-        </Text>
+        </Text> */}
 
         <View style={styles.line} />
         {carnets.map((carnet, index) => (

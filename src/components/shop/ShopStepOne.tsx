@@ -17,23 +17,25 @@ import {ThemeContext} from '../../context/theme/ThemeContext';
 import {RootStackParams} from '../../navigator/HomeStack';
 import {ProductShop} from './ProductShop';
 import {FacturaShop} from './FacturaShop';
+import {ComboShop} from './ComboShop';
 interface Props {
   total: number;
   setTotal: (value: number) => void;
+  openModalize: (dest?: 'top' | 'default' | undefined) => void;
 }
 
 interface PropsNavigation
   extends StackNavigationProp<RootStackParams, 'CategoryScreen'> {}
 
 const {height} = Dimensions.get('window');
-export const ShopStepOne = ({total, setTotal}: Props) => {
+export const ShopStepOne = ({total, setTotal, openModalize}: Props) => {
   const navigation = useNavigation<PropsNavigation>();
   const toast = useToast();
   const {
     theme: {colors},
   } = useContext(ThemeContext);
 
-  const {car} = useContext(ShopContext);
+  const {car, combo} = useContext(ShopContext);
 
   const navigateCategory = async (id: string) => {
     try {
@@ -71,11 +73,11 @@ export const ShopStepOne = ({total, setTotal}: Props) => {
     setTotal(totalCalc);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [car]);
-
   return (
     <>
       <View style={{}}>
         <View style={{marginLeft: 7}}>
+          {combo.length > 0 && <ComboShop openModal={openModalize} />}
           {car.map((carItem, index) => (
             <ProductShop
               key={index}
@@ -84,18 +86,8 @@ export const ShopStepOne = ({total, setTotal}: Props) => {
               navigateCategory={navigateCategory}
             />
           ))}
-          {car.length > 0 && <FacturaShop />}
-          {/* {car.length > 0 && (
-            <>
-              <Text style={{marginTop: 10, marginLeft: 10, fontSize: 22}}>
-                Total a Pagar:
-              </Text>
-              <Text style={{marginTop: 10, marginLeft: 10, fontSize: 22}}>
-                {formatToCurrency(total)}
-              </Text>
-            </>
-          )} */}
-          {car.length < 1 && (
+          {(car.length > 0 || combo.length > 0) && <FacturaShop />}
+          {car.length < 1 && combo.length < 1 && (
             <View style={{...styles.emptyImage, height: height - 250}}>
               <Image
                 source={require('./../../assets/shop-emptycar.gif')}
@@ -161,5 +153,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     alignSelf: 'center',
+  },
+  modalize: {
+    zIndex: 99999,
+    flex: 1,
+    alignSelf: 'center',
+    width: '100%',
+    backgroundColor: '#fff',
   },
 });

@@ -14,6 +14,8 @@ import {discount} from '../../utils/discount';
 import {RootStackParams} from '../../navigator/HomeStack';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
+import {PromoString} from './PromoString';
+import {useNodeInPromo} from '../../hooks/useNodeInPromo';
 
 interface Props {
   category: Category;
@@ -29,6 +31,7 @@ export const CategoryCard = ({category}: Props) => {
   const fechaFin = new Date().getTime();
   const diff = fechaFin - fechaInicio;
   const days = diff / (1000 * 60 * 60 * 14);
+  const {nodeInPromo} = useNodeInPromo(category.nodes);
   return (
     <TouchableOpacity
       activeOpacity={0.9}
@@ -49,6 +52,7 @@ export const CategoryCard = ({category}: Props) => {
               style={styles.newImageProduct}
             />
           )}
+          {nodeInPromo && <PromoString />}
           {category.soldOut && (
             <Image
               source={require('../../assets/agotado.png')}

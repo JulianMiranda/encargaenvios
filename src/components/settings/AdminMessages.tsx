@@ -29,7 +29,7 @@ export const AdminMessages = () => {
 
   return (
     <>
-      <TopGradient text={'Chats'} />
+      <TopGradient text={'Chats'} style={{zIndex: 99999999}} />
       <BackButton navigation={navigation} />
       {loadingAdminMessges && (
         <ActivityIndicator

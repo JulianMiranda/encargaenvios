@@ -54,6 +54,18 @@ export const useHome = () => {
           url: true,
         },
       },
+      {
+        path: 'category',
+        fields: {},
+        populate: [
+          {
+            path: 'image',
+            fields: {
+              url: true,
+            },
+          },
+        ],
+      },
     ],
   };
 

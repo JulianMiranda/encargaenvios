@@ -4,13 +4,13 @@ import {FacturaCard} from './FacturaCard';
 import {Order} from '../../interfaces/Order.interface';
 import moment from 'moment';
 import {FacturaMultiCard} from './FacturaMultiCard';
+import {FacturaComboCard} from './FacturaComboCard';
 
 interface Props {
   order: Order;
 }
 
 export const FacturasCarousel = ({order}: Props) => {
-  console.log(order);
   return (
     <>
       <View style={styles.container}>
@@ -24,6 +24,18 @@ export const FacturasCarousel = ({order}: Props) => {
         horizontal
         renderItem={({item}) => (
           <>
+            {order.combo.length > 0 && (
+              <FacturaComboCard
+                codes={order.codes}
+                comboCode={order.comboCode}
+                comboItem={order.combo}
+                selectedCarnet={order.selectedCarnet}
+                trackcode={order.trackcode}
+                createdAt={order.createdAt}
+                order={order.order}
+                status={order.status}
+              />
+            )}
             {item.cantidad > 1 ? (
               <>
                 <FacturaMultiCard

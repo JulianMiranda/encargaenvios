@@ -10,61 +10,54 @@ export const FirstOrder = () => {
   } = useContext(ThemeContext);
   const navigation = useNavigation();
   return (
-    <View style={{flex: 3, alignItems: 'center'}}>
-      <Image
+    <View
+      style={{
+        flex: 3,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+      <View
         style={{
-          height: 250,
-          width: 250,
-          borderRadius: 250,
-        }}
-        source={require('../../assets/firstshop.gif')}
-      />
-      <Text style={{fontSize: 22, color: '#000'}}>Haz tu primera compra</Text>
-      {/* <TouchableOpacity
-        style={{
-          backgroundColor: colors.card,
-          marginTop: 20,
-          padding: 4, 
-          marginLeft: 30,
-          borderRadius: 25,
-          paddingHorizontal: 10,
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-          elevation: 5,
-        }}
-        onPress={() => navigation.navigate('Tienda', {screen: 'HomeScreen'})}>
-        <Text style={{color: '#fff'}}>Tienda</Text>
-      </TouchableOpacity> */}
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => navigation.navigate('Tienda', {screen: 'HomeScreen'})}
-        style={{
-          ...styles.emptyCarButton,
-          backgroundColor: colors.card,
+          flex: 5,
         }}>
-        <Text style={styles.emptyText}>Ir a la tienda</Text>
-        <Icon
-          name="arrow-right"
-          color="white"
-          size={24}
-          style={{position: 'absolute', right: 14, top: 10}}
+        <Image
+          style={{
+            height: 250,
+            width: 250,
+            borderRadius: 250,
+          }}
+          source={require('../../assets/firstshop.gif')}
         />
-      </TouchableOpacity>
+        <Text style={{fontSize: 22, color: '#000'}}>Haz tu primera compra</Text>
+      </View>
+      <View
+        style={{
+          flex: 2,
+        }}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate('Tienda', {screen: 'HomeScreen'})}
+          style={{
+            ...styles.emptyCarButton,
+            backgroundColor: colors.card,
+          }}>
+          <Text style={styles.emptyText}>Ir a la tienda</Text>
+          <Icon
+            name="arrow-right"
+            color="white"
+            size={24}
+            style={{position: 'absolute', right: 14, top: 10}}
+          />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   emptyCarButton: {
-    position: 'absolute',
-    bottom: 10,
     flexDirection: 'row',
-    marginTop: 1,
+    marginTop: 20,
     padding: 10,
     paddingHorizontal: 50,
     alignSelf: 'center',

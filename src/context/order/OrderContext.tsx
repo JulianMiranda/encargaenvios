@@ -24,18 +24,17 @@ export const OrderProvider = ({children}: any) => {
   const {status, user} = useContext(AuthContext);
   const [state, dispatch] = useReducer(orderReducer, orderInicialState);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     if (status === 'authenticated') {
       checkOrders();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status]);
+  }, [status]); */
 
   const checkOrders = async () => {
     try {
       console.log('MyUser', user?.id);
       const body = {
-        filter: {user: ['=', user?.id]},
+        filter: {user: ['=', user?.id], orderState: ['!=', 'FORPAY']},
         docsPerPage: 200,
         /*   sort: {createdAt: 'DESC'}, */
         population: [

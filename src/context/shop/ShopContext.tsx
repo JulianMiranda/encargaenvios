@@ -1,23 +1,31 @@
 import React, {createContext, useContext, useEffect, useReducer} from 'react';
 
 import {ShopState, shopReducer} from './shopReducer';
-import {CarItemProps} from '../../interfaces/Shop.Interface';
+import {CarItemProps, ComboItemProps} from '../../interfaces/Shop.Interface';
 import api from '../../api/api';
 import {AuthContext} from '../auth/AuthContext';
 import {useToast} from 'react-native-toast-notifications';
-import {Dimensions} from 'react-native';
+import {Dimensions, Vibration} from 'react-native';
 import {Category} from '../../interfaces/CategoryResponse.interface';
 
 import {OrderContext} from '../order/OrderContext';
 import {Order, OrderResponse} from '../../interfaces/Order.interface';
+import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
 
 import {
+  deleteCombo,
   getInvitedCar,
+  getSavedCombo,
   setItemInvitedCar,
   setMyShopInvitedCar,
+  setSaveCombo,
+  unSetSaveCombo,
   updateItemInvitedCar,
+  updateSaveCombo,
 } from '../../utils/handleItemInvited';
 import {STRING} from '../../forkApps/forkApps';
+import {Subcategory} from '../../interfaces/Subcategory.interface';
+import {Promocode} from '../../interfaces/Promocode.interface';
 
 type ShopContextProps = {
   addCarLoading: boolean;
@@ -28,16 +36,53 @@ type ShopContextProps = {
   unsetItem: (item: Category) => void;
   updateCarItem: (item: CarItemProps) => void;
   emptyCar: () => Promise<any>;
+  dropCombo: () => void;
+  dropComboPrev: () => void;
   successShop: () => Promise<void>;
   removeAlert: () => void;
   clearErrorAdd: () => void;
   makeShop: (total: number, selectedCarnet: string[]) => Promise<boolean>;
+
+  combo: ComboItemProps[];
+  setItemCombo: (item: ComboItemProps) => void;
+  unsetItemCombo: (item: Subcategory) => void;
+  costoTotal: number;
+  pesoTotal: number;
+
+  priceTotal: number;
+  discountTotal: number;
+  discountPromo: {
+    name: string;
+    description: string;
+    discount: number;
+    nodes: Array<string>;
+    minDiscount: number;
+    maxDiscount: number;
+  };
+
+  comboPrev: ComboItemProps[];
+  setItemComboPrev: (item: ComboItemProps) => void;
+  unsetItemComboPrev: (item: Subcategory) => void;
 };
 const shopInicialState: ShopState = {
   car: [],
+  combo: [],
+  comboPrev: [],
   message: '',
   errorAddCar: '',
   addCarLoading: false,
+  costoTotal: 0,
+  pesoTotal: 0,
+  priceTotal: 0,
+  discountTotal: 0,
+  discountPromo: {
+    discount: 0,
+    nodes: [],
+    minDiscount: 0,
+    maxDiscount: 0,
+    name: '',
+    description: '',
+  },
 };
 
 export const ShopContext = createContext({} as ShopContextProps);
@@ -48,8 +93,8 @@ export const ShopProvider = ({children}: any) => {
   const {setOrder} = useContext(OrderContext);
   const [state, dispatch] = useReducer(shopReducer, shopInicialState);
   const toast = useToast();
+
   useEffect(() => {
-    console.log(status);
     if (status === 'authenticated') {
       checkCar();
     }
@@ -57,6 +102,65 @@ export const ShopProvider = ({children}: any) => {
       checkCarNotAuth();
     }
   }, [status]);
+
+  useEffect(() => {
+    calculateCombo();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.combo]);
+  useEffect(() => {
+    checkComboCar();
+  }, []);
+  useEffect(() => {
+    carTotal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.car]);
+
+  useEffect(() => {
+    if (status === 'authenticated' && user && user.promocode) {
+      console.log('user.promocode', user.promocode);
+      try {
+        api
+          .get<Promocode>('/promocode/getOne/' + user.promocode)
+          .then(response => {
+            const currentDate = new Date();
+            const expDate = new Date(response.data.expirationDate);
+            if (
+              response.status === 200 &&
+              response.data.discount &&
+              expDate.getTime() > currentDate.getTime()
+            ) {
+              dispatch({
+                type: 'set_discount_promo',
+                payload: {
+                  name: response.data.name,
+                  description: response.data.description,
+                  discount: response.data.discount,
+                  nodes: response.data.nodes,
+                  maxDiscount: response.data.maxDiscount,
+                  minDiscount: response.data.minDiscount,
+                },
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }, [user, status]);
+
+  const checkComboCar = async () => {
+    try {
+      const resp = await getSavedCombo();
+      if (resp.length && resp.length > 0) {
+        resp.map(item => dispatch({type: 'set_item_combo', payload: item}));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const checkCar = async () => {
     try {
       const resp = await api.get<CarItemProps[]>('/shop/checkCategories');
@@ -80,6 +184,15 @@ export const ShopProvider = ({children}: any) => {
     }
   };
   const setItem = async (item: CarItemProps) => {
+    /*    Vibration.vibrate(100); */
+    const options = {
+      enableVibrateFallback: true,
+      ignoreAndroidSystemSettings: false,
+    };
+
+    // Trigger haptic feedback
+    ReactNativeHapticFeedback.trigger('impactLight', options);
+    console.log('setItem');
     if (status === 'not-authenticated') {
       console.log('Actualizxando Invitado');
       try {
@@ -218,6 +331,8 @@ export const ShopProvider = ({children}: any) => {
   };
 
   const updateCarItem = async (item: CarItemProps) => {
+    console.log('updateCarItem');
+
     if (item.cantidad === 0) {
       return unsetItem(item.category);
     }
@@ -314,8 +429,16 @@ export const ShopProvider = ({children}: any) => {
   const clearErrorAdd = () => {
     dispatch({type: 'error_add_car', payload: ''});
   };
+  const dropCombo = () => {
+    dispatch({type: 'drop_combo'});
+    deleteCombo();
+  };
+  const dropComboPrev = () => {
+    dispatch({type: 'drop_combo_prev'});
+  };
 
   const unsetItem = async (item: Category) => {
+    console.log('unsetCarItem');
     if (status === 'authenticated') {
       try {
         dispatch({type: 'add_car_loading', payload: true});
@@ -389,8 +512,79 @@ export const ShopProvider = ({children}: any) => {
     }
   };
 
+  const setItemCombo = async (item: ComboItemProps): Promise<any> => {
+    const options = {
+      enableVibrateFallback: true,
+      ignoreAndroidSystemSettings: false,
+    };
+
+    // Trigger haptic feedback
+    ReactNativeHapticFeedback.trigger('impactLight', options);
+    try {
+      /* api.post('/shop/setMyShop', {user: user!.id, car: []}); */
+      const exist = state.combo.filter(
+        (comboItem: ComboItemProps) =>
+          comboItem.subcategory.id === item.subcategory.id,
+      );
+      if (exist.length === 0) {
+        dispatch({type: 'set_item_combo', payload: item});
+        setSaveCombo(item);
+      } else {
+        dispatch({type: 'update_item_combo', payload: exist[0]});
+        updateSaveCombo(exist[0]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const unsetItemCombo = async (item: Subcategory): Promise<any> => {
+    try {
+      /* api.post('/shop/setMyShop', {user: user!.id, car: []}); */
+      dispatch({type: 'unset_item_combo', payload: item});
+      unSetSaveCombo(item);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const setItemComboPrev = async (item: ComboItemProps): Promise<any> => {
+    try {
+      /* api.post('/shop/setMyShop', {user: user!.id, car: []}); */
+      const exist = state.comboPrev.filter(
+        (comboItem: ComboItemProps) =>
+          comboItem.subcategory.id === item.subcategory.id,
+      );
+      if (exist.length === 0) {
+        dispatch({type: 'set_item_combo_prev', payload: item});
+      } else {
+        dispatch({type: 'update_item_combo_prev', payload: exist[0]});
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const unsetItemComboPrev = async (item: Subcategory): Promise<any> => {
+    try {
+      /* api.post('/shop/setMyShop', {user: user!.id, car: []}); */
+      dispatch({type: 'unset_item_combo_prev', payload: item});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const calculateCombo = (): void => {
+    let pesoTotal = 0;
+    let costoTotal = 0;
+    state.combo.forEach(elemento => {
+      pesoTotal += elemento.cantidad * elemento.subcategory.weight;
+      costoTotal += elemento.cantidad * elemento.subcategory.cost;
+    });
+    dispatch({type: 'set_costo', payload: costoTotal});
+    dispatch({type: 'set_peso', payload: pesoTotal});
+    console.log('calculateCombo', pesoTotal);
+  };
+
   const successShop = async (): Promise<void> => {
     try {
+      console.log('successShop');
       dispatch({type: 'add_car_loading', payload: true});
       const body = {
         filter: {user: ['=', user?.id], status: ['=', true]},
@@ -441,6 +635,29 @@ export const ShopProvider = ({children}: any) => {
     }
   };
 
+  const carTotal = () => {
+    let disc = 0;
+    let tot = 0;
+    state.car.map(carItem => {
+      if (!carItem.category.status || carItem.category.soldOut) {
+        return;
+      }
+      if (
+        carItem.category.priceDiscount &&
+        carItem.category.priceDiscount !== 0
+      ) {
+        tot += carItem.category.priceDiscount * carItem.cantidad;
+        disc +=
+          (carItem.category.price - carItem.category.priceDiscount) *
+          carItem.cantidad;
+      } else {
+        tot += carItem.category.price * carItem.cantidad;
+      }
+    });
+    dispatch({type: 'set_price_total', payload: tot});
+    dispatch({type: 'set_discount_total', payload: disc});
+  };
+
   const makeShop = async (
     total: number,
     selectedCarnet: string[],
@@ -450,12 +667,13 @@ export const ShopProvider = ({children}: any) => {
       const cleanCar = state.car.filter(
         carItem => !(!carItem.category.status || carItem.category.soldOut),
       );
-      const a = await api.post<Promise<Order>>('/orders/setOrder', {
+      await api.post<Promise<Order>>('/orders/setOrder', {
         user: user!.id,
         cost: total,
         car: cleanCar,
         selectedCarnet,
         owner: STRING.owner,
+        combo: state.combo,
       });
       dispatch({type: 'add_car_loading', payload: false});
       return true;
@@ -494,6 +712,12 @@ export const ShopProvider = ({children}: any) => {
         removeAlert,
         clearErrorAdd,
         updateCarItem,
+        setItemCombo,
+        unsetItemCombo,
+        dropCombo,
+        setItemComboPrev,
+        unsetItemComboPrev,
+        dropComboPrev,
       }}>
       {children}
     </ShopContext.Provider>

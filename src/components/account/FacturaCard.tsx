@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   name: {
-    fontSize: 22,
+    fontSize: 16,
     top: 4,
     left: 10,
     color: 'black',

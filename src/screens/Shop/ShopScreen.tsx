@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {Modalize} from 'react-native-modalize';
+import {Modalize, useModalize} from 'react-native-modalize';
 import {useToast} from 'react-native-toast-notifications';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -33,6 +33,8 @@ import {NoPropsInvited} from '../../components/common/NoPropsInvited';
 import {TermsButton} from '../../components/shop/TermsButton';
 import {isIphoneXorAbove} from '../../utils/isIphone';
 import {STRING} from '../../forkApps/forkApps';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {FadeInImage} from '../../components/common/FadeInImage';
 
 const {width, height} = Dimensions.get('window');
 
@@ -41,7 +43,7 @@ const HEADER_MIN_HEIGHT = height < 600 ? 50 : 70;
 const PROFILE_IMAGE_MIN_HEIGHT = 40;
 
 export const ShopScreen = () => {
-  const {car, makeShop, successShop} = useContext(ShopContext);
+  const {car, successShop, combo} = useContext(ShopContext);
   const {
     theme: {colors},
   } = useContext(ThemeContext);
@@ -55,6 +57,8 @@ export const ShopScreen = () => {
   const scrollY = useRef(new Animated.Value(0)).current;
 
   const navigation = useNavigation();
+  const {top} = useSafeAreaInsets();
+  const {ref, open} = useModalize();
 
   const headerHeight = scrollY.interpolate({
     inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
@@ -142,7 +146,6 @@ export const ShopScreen = () => {
       }).start();
       setProgress(progress - 1);
     } else {
-      /* const respShop = await makeShop(total, selectedCarnet); */
       await successShop();
       setProgress(2);
       const newBarWith =
@@ -236,6 +239,8 @@ export const ShopScreen = () => {
     }
   }, [statePage]);
 
+  const {bottom} = useSafeAreaInsets();
+
   return (
     <>
       <Animated.View
@@ -327,7 +332,7 @@ export const ShopScreen = () => {
           )}
         </LinearGradient>
         {progress !== 2 && <BackButtonShop pressBack={pressBack} />}
-        {car.length > 0 && (
+        {(car.length > 0 || combo.length > 0) && (
           <>
             <View
               style={{
@@ -338,7 +343,9 @@ export const ShopScreen = () => {
             </View>
           </>
         )}
-        {progress === 2 && <ShopStepOne total={total} setTotal={setTotal} />}
+        {progress === 2 && (
+          <ShopStepOne total={total} setTotal={setTotal} openModalize={open} />
+        )}
         {status === 'authenticated' && progress === 1 && (
           <ShopStepTwo
             carnets={carnets}
@@ -351,7 +358,7 @@ export const ShopScreen = () => {
           <ShopStepThree
             statePage={statePage}
             setStatePage={setStatePage}
-            total={total}
+            totalShop={total}
             selectedCarnet={selectedCarnet}
           />
         )}
@@ -373,12 +380,17 @@ export const ShopScreen = () => {
         </>
       )}
 
-      {((status === 'not-authenticated' && progress === 2 && car.length > 0) ||
-        (status === 'authenticated' && car.length > 0 && progress !== 0)) && (
+      {((status === 'not-authenticated' &&
+        progress === 2 &&
+        (car.length > 0 || combo.length > 0)) ||
+        (status === 'authenticated' &&
+          (car.length > 0 || combo.length > 0) &&
+          progress !== 0)) && (
         <TouchableOpacity
           style={{
             ...styles.buttonContinue,
             backgroundColor: colors.card,
+            marginBottom: bottom / 2 + 90,
           }}
           activeOpacity={0.8}
           onPress={() => {
@@ -472,12 +484,19 @@ export const ShopScreen = () => {
         </TouchableOpacity>
       )}
 
-      <Modalize ref={modalizeRefSesion}>
+      <Modalize
+        modalTopOffset={top}
+        disableScrollIfPossible
+        scrollViewProps={{
+          showsVerticalScrollIndicator: false,
+          scrollEnabled: false,
+        }}
+        ref={modalizeRefSesion}>
         <View
           style={{
             flex: 12,
             zIndex: 99999,
-            height: height * 0.9,
+            height: height * 0.9 - bottom * 2,
             justifyContent: 'center',
             alignItems: 'center',
           }}>
@@ -485,19 +504,28 @@ export const ShopScreen = () => {
         </View>
       </Modalize>
 
-      {/* 
-<View
-          style={{
-            flex: 12,
-            zIndex: 99999,
-            height: height * 0.9,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <NoPropsInvited />
-        </View> */}
-      <Modalize ref={modalizeRef}>
+      <Modalize ref={modalizeRef} modalTopOffset={top + 20}>
         <ShopSuccessComponent pressNavigate={pressNavigate} />
+      </Modalize>
+      <Modalize
+        modalStyle={{...styles.modalize}}
+        ref={ref}
+        modalTopOffset={height * 0.3}>
+        <>
+          <Text style={styles.modalizeTitle}>Contenido Mi Cesta</Text>
+        </>
+        {combo.map((item, index) => (
+          <View key={index + 'prev'} style={styles.comboItem}>
+            <View style={styles.info}>
+              <Text style={styles.textCantidad}>{item.cantidad}</Text>
+              <FadeInImage
+                uri={item.subcategory.images[0].url}
+                style={styles.image}
+              />
+              <Text style={styles.textItem}>{item.subcategory.name}</Text>
+            </View>
+          </View>
+        ))}
       </Modalize>
     </>
   );
@@ -548,7 +576,6 @@ const styles = StyleSheet.create({
     left: 10,
   },
   buttonContinue: {
-    marginBottom: isIphoneXorAbove ? 110 : 80,
     flexDirection: 'row',
     marginTop: 1,
     padding: 10,
@@ -606,4 +633,32 @@ const styles = StyleSheet.create({
     color: '#000',
     backgroundColor: 'transparent',
   },
+  modalize: {
+    zIndex: 99999,
+    flex: 1,
+    alignSelf: 'center',
+    width: '100%',
+    backgroundColor: '#fff',
+    padding: 10,
+  },
+  modalizeTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    paddingLeft: 10,
+  },
+  modalizeCombo: {
+    padding: 5,
+  },
+  comboItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 3,
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+  },
+  info: {flexDirection: 'row', flex: 1, alignItems: 'center'},
+  textItem: {marginLeft: 5, flex: 12},
+  textCantidad: {marginLeft: 3, flex: 1},
+  image: {height: 25, width: 25, flex: 1},
 });

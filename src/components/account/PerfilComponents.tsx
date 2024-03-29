@@ -1,5 +1,5 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useContext, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
   FlatList,
   StyleSheet,
@@ -23,7 +23,7 @@ const PROFILE_IMAGE_MIN_HEIGHT = 40;
 
 export const PerfilCarousel = () => {
   const {status} = useContext(AuthContext);
-  const {orders, isLoading} = useContext(OrderContext);
+  const {orders, checkOrders, isLoading} = useContext(OrderContext);
   const navigation = useNavigation();
 
   const [numOrder, setnumOrder] = useState(0);
@@ -52,6 +52,11 @@ export const PerfilCarousel = () => {
     outputRange: [-30, -30, -30, 5],
     extrapolate: 'clamp',
   });
+  useEffect(() => {
+    if (status === 'authenticated') {
+      checkOrders();
+    }
+  }, [status]);
 
   if (status !== 'authenticated') {
     return (
@@ -61,6 +66,7 @@ export const PerfilCarousel = () => {
       </>
     );
   }
+
   const loadOrders = () => {
     console.log('LoadOrders');
     setnumOrder(prevState => prevState + 2);
@@ -71,58 +77,61 @@ export const PerfilCarousel = () => {
   };
 
   return (
-    <View style={{flex: 1}}>
-      <Animated.View
-        style={{
-          ...styles.containerTop,
-          height: headerHeight,
-          zIndex: headerZindex,
-          elevation: headerZindex,
-        }}>
+    <>
+      <View style={{flex: 1}}>
         <Animated.View
           style={{
-            bottom: headerTitleBottom,
-            ...styles.view,
+            ...styles.containerTop,
+            height: headerHeight,
+            zIndex: headerZindex,
+            elevation: headerZindex,
           }}>
-          <Text
+          <Animated.View
             style={{
-              color: 'white',
-              fontSize: 22,
-              fontWeight: 'bold',
+              bottom: headerTitleBottom,
+              ...styles.view,
             }}>
-            Mis Pedidos
-          </Text>
-        </Animated.View>
-      </Animated.View>
-      <FlatList
-        scrollEventThrottle={16}
-        onScroll={Animated.event(
-          [{nativeEvent: {contentOffset: {y: scrollY}}}],
-          {useNativeDriver: false},
-        )}
-        ListHeaderComponent={
-          <View style={{marginBottom: 70}}>
-            <LinearGradient
-              colors={['#4EB2E4', '#94CFEC', '#fff']}
+            <Text
               style={{
-                ...styles.linearGradient,
-                height: height * 0.2,
-                marginBottom: -height * 0.1,
+                color: 'white',
+                fontSize: 22,
+                fontWeight: 'bold',
               }}>
-              <Text style={styles.buttonText}>Mis Pedidos</Text>
-            </LinearGradient>
-          </View>
-        }
-        numColumns={1}
-        data={filteredOrders()}
-        keyExtractor={(order, index) => index.toString()}
-        onEndReached={() => loadOrders()}
-        onEndReachedThreshold={0.1}
-        renderItem={({item}) => <FacturasCarousel order={item} />}
-      />
+              Mis órdenes
+            </Text>
+          </Animated.View>
+        </Animated.View>
+        <FlatList
+          scrollEventThrottle={16}
+          onScroll={Animated.event(
+            [{nativeEvent: {contentOffset: {y: scrollY}}}],
+            {useNativeDriver: false},
+          )}
+          ListHeaderComponent={
+            <View style={{marginBottom: 70}}>
+              <LinearGradient
+                colors={['#4EB2E4', '#94CFEC', '#fff']}
+                style={{
+                  ...styles.linearGradient,
+                  height: height * 0.2,
+                  marginBottom: -height * 0.1,
+                }}>
+                <Text style={styles.buttonText}>Mis Órdenes</Text>
+              </LinearGradient>
+            </View>
+          }
+          numColumns={1}
+          data={filteredOrders()}
+          keyExtractor={(order, index) => index.toString()}
+          onEndReached={() => loadOrders()}
+          onEndReachedThreshold={0.1}
+          renderItem={({item}) => <FacturasCarousel order={item} />}
+          ListFooterComponent={<View style={{height: 100}} />}
+        />
+        {/* */}
+      </View>
       {orders.length === 0 && !isLoading && <FirstOrder />}
-      <View style={{height: 100}} />
-    </View>
+    </>
   );
 };
 const styles = StyleSheet.create({

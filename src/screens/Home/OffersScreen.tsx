@@ -11,12 +11,14 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
-  StyleSheet,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {CategoryDiscountCard} from '../../components/home/CategoryDiscountCard';
 import {useOffersPaginated} from '../../hooks/useOffersPaginated';
 import {RootStackParams} from '../../navigator/HomeStack';
+import {BackButton} from '../../components/common/BackButton';
+import LinearGradient from 'react-native-linear-gradient';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const {height} = Dimensions.get('screen');
 const HEADER_MAX_HEIGHT = height * 0.15;
@@ -30,6 +32,7 @@ interface PropsNavigation
 export const OffersScreen = () => {
   const {isLoading, loadCategories, categories} = useOffersPaginated();
   const navigation = useNavigation<PropsNavigation>();
+  const {top} = useSafeAreaInsets();
   const scrollY = useRef(new Animated.Value(0)).current;
 
   const headerHeight = scrollY.interpolate({
@@ -43,14 +46,6 @@ export const OffersScreen = () => {
     extrapolate: 'clamp',
   });
 
-  const profileImageMarginTop = scrollY.interpolate({
-    inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
-    outputRange: [
-      HEADER_MAX_HEIGHT - PROFILE_IMAGE_MAX_HEIGHT / 2,
-      HEADER_MAX_HEIGHT + 5,
-    ],
-    extrapolate: 'clamp',
-  });
   const headerZindex = scrollY.interpolate({
     inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT, HEADER_MAX_HEIGHT],
     outputRange: [0, 0, 1000],
@@ -71,15 +66,24 @@ export const OffersScreen = () => {
     <View style={{flex: 1}}>
       <Animated.View
         style={{
-          ...styles.container,
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          backgroundColor: 'lightskyblue',
           height: headerHeight,
           zIndex: headerZindex,
           elevation: headerZindex,
+          alignItems: 'center',
         }}>
         <Animated.View
           style={{
+            position: 'absolute',
             bottom: headerTitleBottom,
-            ...styles.view,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
           }}>
           <TouchableOpacity
             onPress={() => navigation.pop()}
@@ -97,6 +101,7 @@ export const OffersScreen = () => {
           </Text>
         </Animated.View>
       </Animated.View>
+
       <FlatList
         data={categories}
         scrollEventThrottle={16}
@@ -106,22 +111,47 @@ export const OffersScreen = () => {
         )}
         ListHeaderComponent={
           <>
-            <Animated.View
+            <BackButton navigation={navigation} style={{marginTop: top / 2}} />
+            <LinearGradient
+              colors={['#4EB2E4', '#94CFEC', '#fff']}
               style={{
-                height: profileImageHeight,
-                width: profileImageHeight,
-                borderRadius: PROFILE_IMAGE_MAX_HEIGHT / 2,
-                marginTop: profileImageMarginTop,
-                ...styles.shortView,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 5,
+                height: height * 0.2,
+                marginBottom: 10,
               }}>
-              <Image
-                source={require('../../assets/porciento.jpg')}
-                style={{flex: 1, width: 75, height: 75}}
-              />
-            </Animated.View>
-            <View style={{alignItems: 'center'}}>
-              <Text style={styles.title}>Rebajas</Text>
-            </View>
+              <Animated.View
+                style={{
+                  height: profileImageHeight,
+                  width: profileImageHeight,
+                  borderRadius: PROFILE_IMAGE_MAX_HEIGHT / 2,
+                  borderColor: 'white',
+                  borderWidth: 3,
+                  overflow: 'hidden',
+                  marginTop: top,
+                  /* marginLeft: 10, */
+
+                  marginRight: 10,
+                  alignSelf: 'flex-end',
+                }}>
+                <Image
+                  source={require('../../assets/porciento.png')}
+                  style={{flex: 1, width: 75, height: 75}}
+                />
+              </Animated.View>
+              <View style={{alignItems: 'center'}}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: 26,
+                    paddingLeft: 10,
+                    marginTop: -80,
+                  }}>
+                  Rebajas
+                </Text>
+              </View>
+            </LinearGradient>
           </>
         }
         keyExtractor={(subcategory, index) => index.toString()}
@@ -134,40 +164,10 @@ export const OffersScreen = () => {
           <>
             {isLoading && <ActivityIndicator color={'#fb2331'} />}
 
-            <View style={{height: 80}} />
+            <View style={{height: 130}} />
           </>
         }
       />
     </View>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: 'lightskyblue',
-    alignItems: 'center',
-  },
-  view: {
-    position: 'absolute',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-  },
-  shortView: {
-    borderColor: 'white',
-    borderWidth: 3,
-    overflow: 'hidden',
-    marginLeft: 10,
-  },
-  title: {
-    color: '#000',
-    fontWeight: 'bold',
-    fontSize: 26,
-    paddingLeft: 10,
-    marginTop: -100,
-  },
-});

@@ -1,3 +1,4 @@
+import {Prices} from '../../interfaces/Prices.interface';
 import {User} from '../../interfaces/User.interface';
 import {CountryCode} from '../../utils/countryTypes';
 
@@ -14,6 +15,8 @@ export interface AuthState {
   wait: boolean;
   countryCode: CountryCode;
   countryCallCode: string;
+  prices: Prices;
+  minimumVersion: number;
 }
 
 type AuthAction =
@@ -21,6 +24,7 @@ type AuthAction =
   | {type: 'notInternet'}
   | {type: 'setCountryCode'; payload: CountryCode}
   | {type: 'setCountryCallCode'; payload: string}
+  | {type: 'setMinimumVersion'; payload: number}
   | {type: 'addError'; payload: string}
   | {type: 'removeError'}
   | {type: 'startLoadingLogin'}
@@ -30,6 +34,7 @@ type AuthAction =
   | {type: 'signIn'; payload: {user: User}}
   | {type: 'logout'}
   | {type: 'login'}
+  | {type: 'setPrices'; payload: Prices}
   | {type: 'updateReciveNotifications'; payload: User}
   | {type: 'initCheck'};
 
@@ -57,7 +62,11 @@ export const authReducer = (
         status: 'not-authenticated',
         user: null,
       };
-
+    case 'setPrices':
+      return {
+        ...state,
+        prices: action.payload,
+      };
     case 'addError':
       return {
         ...state,
@@ -122,6 +131,11 @@ export const authReducer = (
       return {
         ...state,
         countryCallCode: action.payload,
+      };
+    case 'setMinimumVersion':
+      return {
+        ...state,
+        minimumVersion: action.payload,
       };
     default:
       return state;

@@ -9,7 +9,6 @@ import {
   View,
   Dimensions,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Node} from '../../interfaces/Node.interface';
 import {FadeInImage} from '../../components/common/FadeInImage';
@@ -17,6 +16,9 @@ import {CategoryCard} from '../../components/home/CategoryCard';
 import {useCategoryPaginatedWithNodes} from '../../hooks/useCategoryPaginatedWithNodes';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../../navigator/HomeStack';
+import {BackButton} from '../../components/common/BackButton';
+import LinearGradient from 'react-native-linear-gradient';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const {height} = Dimensions.get('screen');
 const HEADER_MAX_HEIGHT = height * 0.15;
@@ -32,6 +34,7 @@ interface Props
 export const CategoryListScreen = (props: Props) => {
   const {route, navigation} = props;
   const {node} = route.params;
+  const {top} = useSafeAreaInsets();
   const {isLoading, categoryList, loadCategories} =
     useCategoryPaginatedWithNodes(node.id);
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -47,14 +50,6 @@ export const CategoryListScreen = (props: Props) => {
     extrapolate: 'clamp',
   });
 
-  const profileImageMarginTop = scrollY.interpolate({
-    inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT],
-    outputRange: [
-      HEADER_MAX_HEIGHT - PROFILE_IMAGE_MAX_HEIGHT / 2,
-      HEADER_MAX_HEIGHT + 5,
-    ],
-    extrapolate: 'clamp',
-  });
   const headerZindex = scrollY.interpolate({
     inputRange: [0, HEADER_MAX_HEIGHT - HEADER_MIN_HEIGHT, HEADER_MAX_HEIGHT],
     outputRange: [0, 0, 1000],
@@ -72,8 +67,6 @@ export const CategoryListScreen = (props: Props) => {
     extrapolate: 'clamp',
   });
 
-  console.log(categoryList.length);
-
   return (
     <View style={{flex: 1}}>
       <Animated.View
@@ -85,7 +78,7 @@ export const CategoryListScreen = (props: Props) => {
           backgroundColor: 'lightskyblue',
           height: headerHeight,
           zIndex: headerZindex,
-          elevation: headerZindex, //required for android
+          elevation: headerZindex,
           alignItems: 'center',
         }}>
         <Animated.View
@@ -122,33 +115,47 @@ export const CategoryListScreen = (props: Props) => {
         )}
         ListHeaderComponent={
           <>
-            <Animated.View
+            <BackButton navigation={navigation} style={{marginTop: top / 2}} />
+            <LinearGradient
+              colors={['#4EB2E4', '#94CFEC', '#fff']}
               style={{
-                height: profileImageHeight,
-                width: profileImageHeight,
-                borderRadius: PROFILE_IMAGE_MAX_HEIGHT / 2,
-                borderColor: 'white',
-                borderWidth: 3,
-                overflow: 'hidden',
-                marginTop: profileImageMarginTop,
-                marginLeft: 10,
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: 5,
+                height: height * 0.2,
+                marginBottom: 10,
               }}>
-              <FadeInImage
-                uri={node.image.url}
-                style={{flex: 1, width: 75, height: 75}}
-              />
-            </Animated.View>
-            <View style={{alignItems: 'center'}}>
-              <Text
+              <Animated.View
                 style={{
-                  fontWeight: 'bold',
-                  fontSize: 26,
-                  paddingLeft: 10,
-                  marginTop: -100,
+                  height: profileImageHeight,
+                  width: profileImageHeight,
+                  borderRadius: PROFILE_IMAGE_MAX_HEIGHT / 2,
+                  borderColor: 'white',
+                  borderWidth: 3,
+                  overflow: 'hidden',
+                  marginTop: top,
+                  /* marginLeft: 10, */
+
+                  marginRight: 10,
+                  alignSelf: 'flex-end',
                 }}>
-                {node.name}
-              </Text>
-            </View>
+                <FadeInImage
+                  uri={node.image.url}
+                  style={{flex: 1, width: 75, height: 75}}
+                />
+              </Animated.View>
+              <View style={{alignItems: 'center'}}>
+                <Text
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: 26,
+                    paddingLeft: 10,
+                    marginTop: -80,
+                  }}>
+                  {node.name}
+                </Text>
+              </View>
+            </LinearGradient>
           </>
         }
         keyExtractor={(subcategory, index) => index.toString()}

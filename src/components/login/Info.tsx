@@ -10,8 +10,8 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {ThemeContext} from '../../context/theme/ThemeContext';
 import {Screens} from '../../screens/Login/LoginSystemScreen';
-import {Platform} from 'react-native';
 import {isIphoneXorAbove} from '../../utils/isIphone';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface Props {
   setScreen: (screen: Screens) => void;
@@ -22,6 +22,7 @@ export const Info = ({setScreen, confirmGoogle}: Props) => {
   const {
     theme: {colors},
   } = useContext(ThemeContext);
+  const {top, bottom} = useSafeAreaInsets();
   return (
     <>
       <View
@@ -31,56 +32,28 @@ export const Info = ({setScreen, confirmGoogle}: Props) => {
           alignItems: 'center',
         }}>
         <Image
-          source={require('../../assets/info_shop.jpg')}
-          style={{width: '100%', height: height}}
+          source={require('../../assets/encargaInfo.png')}
+          style={{
+            width: '100%',
+            height: height,
+            bottom: 100 + bottom,
+          }}
         />
-        <View style={styles.buttons}>
-          {/* <TouchableOpacity
-            style={{
-              ...styles.button1,
-              backgroundColor: colors.card,
-            }}
-            activeOpacity={0.8}
-            onPress={() => {
-              confirmGoogle();
-            }}>
-            <Icon
-              name="google"
-              color="white"
-              size={24}
-              style={styles.iconStart}
-            />
-            <Text style={styles.buttonText}>Cuenta de Google</Text>
-
-            <Icon
-              name="arrow-right"
-              color="white"
-              size={24}
-              style={styles.icon}
-            />
-          </TouchableOpacity>
-          <Text style={{color: 'green', alignSelf: 'center', fontSize: 22}}>
-            o
-          </Text> */}
-
+        <View
+          style={{
+            ...styles.buttons,
+            bottom: bottom * 2 + 120,
+          }}>
           <TouchableOpacity
             style={{
               ...styles.button2,
               backgroundColor: colors.primary,
-
-              alignItems: 'center' /* 
-              width: '90%', */,
+              alignItems: 'center',
             }}
             activeOpacity={0.8}
             onPress={() => {
               setScreen('phone');
             }}>
-            {/* <Icon
-              name="phone"
-              color="white"
-              size={24}
-              style={styles.iconStart}
-            /> */}
             <Text style={styles.buttonText}>Continuar</Text>
 
             <Icon
@@ -92,6 +65,15 @@ export const Info = ({setScreen, confirmGoogle}: Props) => {
           </TouchableOpacity>
         </View>
       </View>
+      <View
+        style={{
+          height: 400,
+          position: 'relative',
+          top: 0,
+          backgroundColor: 'red',
+          zIndex: 99999999999,
+        }}
+      />
     </>
   );
 };
@@ -99,7 +81,6 @@ export const Info = ({setScreen, confirmGoogle}: Props) => {
 const styles = StyleSheet.create({
   buttons: {
     position: 'absolute',
-    bottom: isIphoneXorAbove ? 150 : 110,
     width: '100%',
   },
   button1: {

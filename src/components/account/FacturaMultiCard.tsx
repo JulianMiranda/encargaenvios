@@ -76,7 +76,15 @@ export const FacturaMultiCard = ({
               {!status && (
                 <Image
                   source={require('../../assets/cancelled.png')}
-                  style={{width: 150, height: 150}}
+                  style={{
+                    position: 'absolute',
+                    zIndex: 10,
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+                  }}
                 />
               )}
               <View style={styles.cardInside}>
@@ -115,7 +123,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   name: {
-    fontSize: 22,
+    fontSize: 16,
     top: 4,
     left: 10,
     color: 'black',

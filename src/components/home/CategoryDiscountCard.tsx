@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/core';
 import {Text, View, TouchableOpacity, StyleSheet} from 'react-native';
 
@@ -9,6 +9,8 @@ import {FadeInImage} from '../common/FadeInImage';
 import {RootStackParams} from '../../navigator/HomeStack';
 import {formatToCurrency} from '../../utils/formatToCurrency';
 import {Category} from '../../interfaces/CategoryResponse.interface';
+import {ShopContext} from '../../context/shop/ShopContext';
+import {PromoString} from './PromoString';
 
 interface Props {
   item: Category;
@@ -17,11 +19,25 @@ interface PropsNavigation
   extends StackNavigationProp<RootStackParams, 'CategoryScreen'> {}
 
 export const CategoryDiscountCard = ({item}: Props) => {
-  const {price, priceDiscount, image, name} = item;
+  const {price, priceDiscount, image, name, nodes} = item;
 
   const navigation = useNavigation<PropsNavigation>();
 
+  const [nodeInPromo, setNodeInPromo] = useState(false);
   const discount = (100 * (price - priceDiscount)) / price;
+  const {discountPromo} = useContext(ShopContext);
+
+  useEffect(() => {
+    const nodesList = nodes.map(n => n.id);
+    const nodesPromo = discountPromo.nodes.map(n => {
+      if (n !== undefined) {
+        return n;
+      }
+    });
+    if (nodesList.some(node => nodesPromo.includes(node))) {
+      setNodeInPromo(true);
+    }
+  }, [nodes, discountPromo]);
   return (
     <>
       <View style={styles.line} />
@@ -34,8 +50,10 @@ export const CategoryDiscountCard = ({item}: Props) => {
           });
         }}>
         <View style={{flexDirection: 'row', marginVertical: 2}}>
-          <FadeInImage uri={image.url} style={styles.image} />
-
+          <View style={styles.image}>
+            <FadeInImage uri={image.url} style={styles.image} />
+            {nodeInPromo && <PromoString />}
+          </View>
           <View style={{flex: 4, justifyContent: 'space-between'}}>
             <View style={styles.discount}>
               <Text style={{fontSize: 20, color: '#fff'}}>

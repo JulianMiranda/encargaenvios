@@ -25,7 +25,7 @@ export const TrackStep = ({text, final, fecha}: Props) => {
               backgroundColor: final ? '#b1b1b1' : '#4EB2E4',
             }}
           />
-          {text === 'Pedido confirmado' ? (
+          {text === 'Orden confirmada' ? (
             <View>
               <View style={styles.columnTransparent} />
               <View style={styles.column2} />

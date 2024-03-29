@@ -1,11 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useRef} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
   ScrollView,
   View,
   Image,
   Dimensions,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useHome} from '../../hooks/useHome';
@@ -17,11 +18,12 @@ import {CategoryCardRecomended} from '../../components/home/CategoryCardRecomend
 import {useCategoryRecomendedPaginated} from '../../hooks/useCategoryRecomendedPaginated';
 import SplashScreen from 'react-native-splash-screen';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {Modalize} from 'react-native-modalize';
-import {SearchModalize} from './SearchModalize';
 import {useNavigation} from '@react-navigation/native';
 import {NodesList} from '../../components/home/NodesList';
 import {MostSales} from '../../components/home/MostSales';
+import {UpdateVersion} from '../../components/common/UpdateVersion';
+import {AuthContext} from '../../context/auth/AuthContext';
+import VersionNumber from 'react-native-version-number';
 
 const {width, height} = Dimensions.get('window');
 
@@ -45,9 +47,9 @@ export const HomeScreen = () => {
 
   const {categoryRecomendedList, loadCategoriesRecomended} =
     useCategoryRecomendedPaginated();
-  const modalizeRef = useRef<Modalize>(null);
 
   const navigation = useNavigation<any>();
+  const {minimumVersion} = useContext(AuthContext);
 
   useEffect(() => {
     if (!nodesLoading && !mainCategoriesLoading) {
@@ -79,8 +81,31 @@ export const HomeScreen = () => {
       layoutMeasurement.height + contentOffset.y >= contentSize.height - 80
     );
   };
+
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
+
+  useEffect(() => {
+    // Obtener la versión actual de la aplicación
+    // Comprobar si se debe mostrar el modal de actualización
+    if (compareVersions(VersionNumber.appVersion, minimumVersion) < 0) {
+      setShowUpdateModal(true);
+    }
+  }, []);
+
+  // Función para comparar versiones
+  const compareVersions = (versionDevice: string, versionActual: number) => {
+    const partsA = versionDevice.split('.').map(Number);
+    const partsB = versionActual;
+    if (partsA[0] < partsB) {
+      return -1;
+    } else {
+      return 1;
+    }
+  };
+
   return (
     <>
+      {showUpdateModal && <UpdateVersion />}
       <View
         style={{
           position: 'absolute',
@@ -95,7 +120,7 @@ export const HomeScreen = () => {
             alignSelf: 'center',
             marginTop: top,
             height: height * 0.04,
-            width: 85,
+            width: 100,
             resizeMode: 'contain',
           }}
         />
@@ -134,7 +159,7 @@ export const HomeScreen = () => {
             color={'#96D573'}
           />
         )}
-        <View style={{marginBottom: -100, zIndex: 100}}>
+        <View style={{marginBottom: 0, zIndex: 100}}>
           {lastCategories.length > 0 && (
             <HomeCategories
               data={lastCategories}
@@ -144,55 +169,22 @@ export const HomeScreen = () => {
           )}
         </View>
         <PromoDown imagesPromoFinal={promoDown} />
-        <View style={{marginTop: -25}}>
+        <View style={{marginTop: 0}}>
           <CategoryCardRecomended
             categoryRecomendedList={categoryRecomendedList}
             promoDown={promoDown}
           />
         </View>
-        {/*  {nodes.slice(0, 2).map((node, index) => (
-          <NodeCarousel key={index} node={node} />
-        ))}
-        {offers.length > 0 && <Rebajas offers={offers} />}
 
-        {nodes.slice(2).map((node, index) => (
-          <NodeCarousel key={index} node={node} />
-        ))}
-        {errorHome.errorHome && (
-          <ErrorHome text="Ofertas" onPress={loaoadByError} />
-        )}
-
-        {mostSaleLastMonth.length > 0 && (
-          <HomeCategories
-            data={mostSaleLastMonth}
-            title={'TOP VENTAS'}
-            color={'#96D573'}
-          />
-        )}
-        <View style={{marginBottom: -100, zIndex: 100}}>
-          {lastCategories.length > 0 && (
-            <HomeCategories
-              data={lastCategories}
-              title={'LO ULTIMO'}
-              color={'#8673D5'}
-            />
-          )}
+        <View
+          style={{
+            height: 150,
+            width: '100%',
+            alignItems: 'center',
+          }}>
+          <ActivityIndicator size={18} color={'#5f5f5f'} />
         </View>
-        <PromoDown imagesPromoFinal={promoDown} />
-        <View style={{marginTop: -25}}>
-          <CategoryCardRecomended
-            categoryRecomendedList={categoryRecomendedList}
-            promoDown={promoDown}
-          />
-        </View> */}
-        <View style={{height: 100}} />
       </ScrollView>
-      <Modalize
-        ref={modalizeRef}
-        modalHeight={height * 0.8}
-        modalStyle={{zIndex: 99999999}}>
-        <SearchModalize />
-      </Modalize>
     </>
   );
 };

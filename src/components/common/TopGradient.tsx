@@ -1,14 +1,15 @@
 import React from 'react';
-import {StyleSheet, Text, Dimensions} from 'react-native';
+import {StyleSheet, Text, Dimensions, StyleProp, ViewStyle} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 interface Props {
   text: string;
+  style?: StyleProp<ViewStyle>;
 }
 
 const {height} = Dimensions.get('window');
 
-export const TopGradient = ({text}: Props) => {
+export const TopGradient = ({text, style = {}}: Props) => {
   return (
     <>
       <LinearGradient
@@ -16,9 +17,8 @@ export const TopGradient = ({text}: Props) => {
         style={{
           ...styles.linearGradient,
           height: height * 0.2,
-          /* 
-          paddingTop: top + 50,*/
           marginBottom: -height * 0.1,
+          ...(style as any),
         }}>
         <Text style={styles.buttonText}>{text}</Text>
       </LinearGradient>

@@ -38,14 +38,14 @@ export const PromoDown = ({imagesPromoFinal}: Props) => {
         dotColor="transparent"
         imageLoadingColor="#fb2331"
         inactiveDotColor="transparent"
-        paginationBoxVerticalPadding={20}
+        /*    paginationBoxVerticalPadding={20} */
         autoplay
         circleLoop
-        autoplayInterval={7000}
+        autoplayInterval={4000}
         resizeMethod={'resize'}
         resizeMode={'cover'}
-        paginationBoxStyle={styles.paginationBox}
-        dotStyle={styles.dot}
+        /*    paginationBoxStyle={styles.paginationBox} */
+        /*  dotStyle={styles.dot} */
         ImageComponentStyle={styles.image}
       />
     </>

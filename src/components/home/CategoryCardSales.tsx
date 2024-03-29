@@ -8,15 +8,15 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-
 import {StackNavigationProp} from '@react-navigation/stack';
-
 import {FadeInImage} from '../common/FadeInImage';
 import {RootStackParams} from '../../navigator/HomeStack';
 import {formatToCurrency} from '../../utils/formatToCurrency';
 import {discount} from '../../utils/discount';
 import {Category} from '../../interfaces/CategoryResponse.interface';
 import AwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import {PromoString} from './PromoString';
+import {useNodeInPromo} from '../../hooks/useNodeInPromo';
 
 interface Props {
   item: Category;
@@ -27,11 +27,13 @@ interface PropsNavigation
 
 const {width} = Dimensions.get('window');
 export const CategoryCardHomeSales = ({item, index}: Props) => {
-  const {price, priceDiscount, image, name, soldOut, createdAt} = item;
+  const {price, priceDiscount, image, name, soldOut, createdAt, nodes} = item;
   const [argument, setArgument] = useState('');
   const [icon, setIcon] = useState('history');
 
   const navigation = useNavigation<PropsNavigation>();
+
+  const {nodeInPromo} = useNodeInPromo(nodes);
 
   useEffect(() => {
     makeArgument();
@@ -69,7 +71,9 @@ export const CategoryCardHomeSales = ({item, index}: Props) => {
   return (
     <TouchableOpacity
       activeOpacity={0.9}
-      style={{}}
+      style={{
+        backgroundColor: 'transparent',
+      }}
       onPress={() => {
         navigation.navigate('CategoryScreen', {
           category: item,
@@ -79,13 +83,14 @@ export const CategoryCardHomeSales = ({item, index}: Props) => {
         style={{
           ...styles.cardContainer,
         }}>
-        <View style={{borderRadius: 10}}>
+        <View style={{borderRadius: 10, backgroundColor: 'transparent'}}>
           {days < 24 && (
             <Image
               source={require('../../assets/nuevo2.png')}
               style={styles.newImageProduct}
             />
           )}
+          {nodeInPromo && <PromoString />}
           {soldOut && (
             <Image
               source={require('../../assets/agotado.png')}
@@ -93,7 +98,8 @@ export const CategoryCardHomeSales = ({item, index}: Props) => {
             />
           )}
           <FadeInImage uri={image.url} style={styles.productImage} />
-          <View style={{...styles.textContainer}}>
+          <View
+            style={{...styles.textContainer, backgroundColor: 'transparent'}}>
             <Text
               style={{
                 ...styles.price,
@@ -164,8 +170,9 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
 
     elevation: 5,
+    backgroundColor: 'transparent',
   },
-  textContainer: {},
+  textContainer: {backgroundColor: 'transparent'},
   name: {
     fontSize: 14,
     top: 4,
@@ -199,8 +206,8 @@ const styles = StyleSheet.create({
     right: 0,
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.3)',
-    height: width * 0.37,
-    width: width * 0.37,
+    height: width * 0.45,
+    width: width * 0.45,
     borderRadius: 10,
   },
   newImageProduct: {

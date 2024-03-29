@@ -73,7 +73,7 @@ export const SingleTrack = ({
           <>
             <View style={styles.line} />
             <TrackStep
-              text={'Pedido confirmado'}
+              text={'Orden confirmada'}
               final={false}
               fecha={dates.CONFIRMED}
             />
@@ -102,7 +102,7 @@ export const SingleTrack = ({
               text={
                 !state.ADUECU
                   ? 'Trasladando a Aduana del Ecuador'
-                  : 'Trasladado Aduana del Ecuador'
+                  : 'Trasladado a Aduana del Ecuador'
               }
               final={final === 'AGENCY'}
               fecha={dates.ADUECU}
@@ -148,7 +148,7 @@ export const SingleTrack = ({
               text={
                 !state.ADUANACUB
                   ? 'Camino a la Habana'
-                  : 'Recepcionado por Aduana de Cuba'
+                  : 'Recepcionado por Aduanas de Cuba'
               }
               final={final === 'COPAAIR'}
               fecha={dates.ADUANACUB}
@@ -161,8 +161,8 @@ export const SingleTrack = ({
           <View style={styles.final}>
             <View style={styles.finalView}>
               <Text style={{color: '#000'}}>
-                Podrá continuar el seguimiento de su envío Correos de Cuba una
-                vez Aduna despache su paquete
+                Podrá continuar el seguimiento de su envío en el sitio oficial
+                de Correos de Cuba una vez Adunas despache su paquete
               </Text>
             </View>
           </View>

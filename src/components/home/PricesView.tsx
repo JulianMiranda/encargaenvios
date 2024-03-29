@@ -3,11 +3,13 @@ import React, {useContext} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {ThemeContext} from '../../context/theme/ThemeContext';
 import {formatToCurrency} from '../../utils/formatToCurrency';
+import {PromoString} from './PromoString';
 interface Props {
   price: number;
   priceDiscount: number;
+  nodeInPromo: boolean;
 }
-export const PricesView = ({price, priceDiscount}: Props) => {
+export const PricesView = ({price, priceDiscount, nodeInPromo}: Props) => {
   const {
     theme: {colors},
   } = useContext(ThemeContext);
@@ -39,6 +41,15 @@ export const PricesView = ({price, priceDiscount}: Props) => {
             }}>
             {formatToCurrency(priceDiscount)}
           </Text>
+        )}
+        {nodeInPromo && (
+          <PromoString
+            style={{
+              left: 5,
+              position: 'relative',
+              alignSelf: 'flex-start',
+            }}
+          />
         )}
       </View>
       <View style={styles.divider} />

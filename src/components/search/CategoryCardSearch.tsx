@@ -14,6 +14,8 @@ import {discount} from '../../utils/discount';
 import {RootStackParams} from '../../navigator/SearchStack';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
+import {useNodeInPromo} from '../../hooks/useNodeInPromo';
+import {PromoString} from '../home/PromoString';
 
 interface Props {
   item: Category;
@@ -23,9 +25,11 @@ interface PropsNavigation
 
 const {width} = Dimensions.get('window');
 export const CategoryCardSearch = ({item}: Props) => {
-  const {price, priceDiscount, image, name, soldOut, createdAt} = item;
+  const {price, priceDiscount, image, name, soldOut, createdAt, nodes} = item;
 
   const navigation = useNavigation<PropsNavigation>();
+
+  const {nodeInPromo} = useNodeInPromo(nodes);
 
   const fechaInicio = new Date(createdAt).getTime();
   const fechaFin = new Date().getTime();
@@ -45,6 +49,7 @@ export const CategoryCardSearch = ({item}: Props) => {
           ...styles.cardContainer,
         }}>
         <View style={{borderRadius: 10}}>
+          {nodeInPromo && <PromoString />}
           {days < 24 && (
             <Image
               source={require('../../assets/nuevo2.png')}

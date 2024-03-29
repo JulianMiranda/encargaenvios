@@ -40,7 +40,7 @@ export default function PhoneNumber({
   const countryPickerRef = useRef<any>();
   const [phoneNumber, setPhoneNumber] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const {top} = useSafeAreaInsets();
+  const {top, bottom} = useSafeAreaInsets();
   const onChangePhone = (number: string) => {
     if (inputRef.current.isValidNumber()) {
       inputRef.current.blur();
@@ -138,8 +138,7 @@ export default function PhoneNumber({
             style={{
               ...styles.button,
               backgroundColor: phoneNumber ? colors.primary : '#f1b2b3',
-
-              bottom: isIphoneXorAbove ? 120 : 80,
+              bottom: height < 600 ? 150 + bottom * 2 : 120 + bottom * 2,
             }}
             onPress={
               phoneNumber
@@ -182,7 +181,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     borderRadius: 50,
-    marginBottom: 15,
     width: '80%',
     shadowColor: '#000',
     shadowOffset: {

@@ -85,8 +85,8 @@ android {
         applicationId "com.encargaenvios"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 13
-        versionName "2.0.1"
+        versionCode 14
+        versionName "2.0.3"
     }
     signingConfigs {
         release {

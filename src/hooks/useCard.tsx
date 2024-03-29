@@ -1,6 +1,6 @@
 import {useState, useContext} from 'react';
 import {AuthContext} from '../context/auth/AuthContext';
-import {Card} from '../interfaces/Card.interface';
+import {CardResponse, Card} from '../interfaces/Card.interface';
 import apiCardEfect from '../api/apiCardEfect';
 
 import moment from 'moment';
@@ -101,7 +101,7 @@ export const useCard = () => {
           review_url: STRING.review_url,
         },
       });
-      console.log('Resp Card' + JSON.stringify(response.data));
+
       setIsLoading(false);
       return response.data.data.payment.payment_url;
     } catch (error) {

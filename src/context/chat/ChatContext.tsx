@@ -113,6 +113,8 @@ export const ChatProvider = ({children}: any) => {
   };
   const setNewMessages = async () => {
     try {
+      console.log('Nuevo mensaje');
+
       const newMessages = await api.get<number>(
         `/checkMessages/checkUserMessages/${user?.id}`,
       );

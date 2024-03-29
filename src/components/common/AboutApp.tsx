@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  Dimensions,
-  Linking,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import {TopScrollGradient} from './TopScrollGradient';
 import {STRING} from '../../forkApps/forkApps';
 
@@ -15,150 +8,89 @@ const {height} = Dimensions.get('window');
 export const AboutApp = () => {
   return (
     <>
-      <TopScrollGradient title="Acerca de la app">
+      <TopScrollGradient title="Quiénes somos">
         <View style={{padding: 10}}>
           <Text style={{...styles.text, fontSize: 26, marginTop: 70}}>
-            • {STRING.app} Envios es una Agencia de Envíos radicada en Ecuador
-            con destino a Cuba.
-          </Text>
-          <Text style={{...styles.text18}}>
-            • Su compra será realizada en el momento indicado debido al orden
-            lógico de compras mediante nuestra aplicación.
-          </Text>
-          <Text style={{...styles.text18}}>
-            • Al realizar su compra será considerada como finalizada, cualquier
-            pedido extra o fuera de tiempo será considerada una compra posterior
-            futura.
-          </Text>
-          <Text style={{...styles.text18}}>
-            • Algunos artículos que exceden los 10kg no son entregados en su
-            domicilio; dichos productos deben ser retirados por el remitente en
-            la oficina de Aduanas de Cuba de su municipio.
-          </Text>
-          <Text style={{...styles.text18}}>
-            • Con gusto le atenderemos en la sección Ayuda lo más rápido
-            posible.
-          </Text>
-          <Text style={{...styles.text18}}>
-            • {STRING.app} Envios se reserva el derecho de admisión tanto de
-            clientes como de pedidos.
+            Bienvenido a {STRING.app}
           </Text>
 
           <Text style={{...styles.text18}}>
-            • No podemos ofrecer timpo exacto de entrega ya que es Aduanas de
-            Cuba quien maneja el tiempo de procesamiento, de igual forma si su
-            pedido no ha llegado antes de 120 días ponerse en contacto con el
-            equipo de {STRING.app} Envios para proceder a la correspondiente
-            reclamación de su pedido.
+            En {STRING.app}, nos complace darte la bienvenida a un mundo de
+            innovación, estilo y comodidad para los cubanos. Somos más que una
+            tienda en línea; somos tu destino para descubrir productos
+            excepcionales y vivir una experiencia de compra y ayuda familiar
+            enriquecedora desde la comodidad de tu hogar.
           </Text>
-
-          <Text style={{...styles.text, fontSize: 18}}>
-            • Cada persona residente en Cuba puede recibir 500 puntos al año.
+          <Text style={{...styles.text18}}>
+            Nuestra misión es simple: ser el puente que une a las familias
+            cubanas a través de distancias geográficas, brindando un apoyo
+            esencial y reconfortante mediante envíos a Cuba. Nos esforzamos por
+            ser el vínculo que mantiene a las familias conectadas, facilitando
+            la entrega de amor, cuidado y productos vitales de una manera
+            eficiente y afectuosa. Nuestra misión es ser reconocidos como un
+            socio confiable y compasivo que contribuye a fortalecer los lazos
+            familiares, incluso cuando la distancia física separa a seres
+            queridos. Resaltamos la importancia de mantener conexiones
+            familiares a través de envíos de ayuda. Ponemos énfasis en el papel
+            de nuestro equipo en proporcionar apoyo emocional y práctico a las
+            familias que están separadas geográficamente. Además, enfatiza el
+            deseo de ser un socio confiable y compasivo que impacta
+            positivamente en la vida de los cubanos al brindarles la oportunidad
+            de estar presentes en la vida de sus seres queridos a pesar de la
+            distancia.
           </Text>
-          <Text style={{...styles.text, fontSize: 18}}>
-            • Correos de Cuba cobrará un una tarifa de entrega que deberá ser
-            pagada a la hora de retirar el paquete en la Oficina de Correo de
-            Cuba.
+          <Text style={{...styles.text18}}>
+            En {STRING.app}, aspiramos a ser líderes en la industria de
+            logística y envíos hacia Cuba, impulsando la innovación y la
+            excelencia en cada paso del camino. Nuestra visión es crear
+            comodidades para que los cubanos estén más conectados y el mundo les
+            sea accesible, donde las distancias no sean una barrera y donde las
+            soluciones logísticas sean sinónimo de eficiencia y confiabilidad.
+            Buscamos transformar la forma en que los cubanos y las pequeñas y
+            medianas empresas cubanas experimentan la importación de mercancías,
+            brindando soluciones personalizadas, tecnología avanzada y un
+            servicio al cliente excepcional. Alcanzaremos nuestra visión a
+            través de un compromiso constante con la mejora continua, la
+            sostenibilidad y la creación de valor duradero para nuestros
+            clientes, colaboradores y comunidades en todo el mundo.
           </Text>
-
-          <Text style={{...styles.text, fontSize: 18}}>
-            • Para consultar los valores de Aduanas de Cuba recomendamos
-            descargar la aplicación móvil NAC (Normas Aduaneras de Cuba).
+          <Text style={{...styles.text18}}>
+            Lo que nos distingue es nuestra dedicación a la calidad, la
+            autenticidad y la satisfacción del cliente. Cada producto que
+            encontrarás aquí ha sido seleccionado por su excelencia y
+            originalidad. Valoramos tu tiempo y confianza, por lo que hemos
+            diseñado una plataforma de compra intuitiva y segura para que puedas
+            explorar, seleccionar y comprar con total tranquilidad.
           </Text>
-
-          <Text style={{...styles.text, fontSize: 18}}>
-            • Una vez enviados sus paquetes se le actualizarán los códigos de
-            seguimiento de sus paquetes que se verán reflejados en la sección de
-            Rastreo.
+          <Text style={{...styles.text18}}>
+            Nuestro equipo está comprometido en tu satisfacción. Desde el
+            momento en que navegues por nuestras categorías hasta el momento en
+            que tu familia reciba tu pedido, estamos aquí para brindarte
+            asistencia y apoyo en cada paso del camino. Queremos que tu
+            experiencia de compra sea fluida, emocionante y memorable.
           </Text>
-          <Text style={{...styles.text, fontSize: 18}}>
-            • Cada paquete tiene su código, es independiente a otro y así son
-            tratados, por lo que pueden llegarle al destinatario en fechas
-            diferentes.
+          <Text style={{...styles.text18}}>
+            Además, {STRING.app} está en constante evolución. Estamos atentos a
+            las últimas tendencias y novedades del mercado para asegurarnos de
+            ofrecerte productos que enriquezcan la vida de tus seres queridos.
+            Siempre estamos abiertos a tus comentarios y sugerencias, ya que
+            creemos que nuestros clientes, son la fuerza impulsora detrás de
+            nuestro crecimiento y mejora continua.
           </Text>
-          <Text style={{...styles.text, fontSize: 18}}>
-            • Los servicios de entrega son hasta el domicilio de la persona que
-            recibe, dicha entrega corre a cargo de Correos de Cuba.
+          <Text style={{...styles.text18}}>
+            Te invitamos a explorar nuestra amplia gama de productos y
+            sumergirte en una experiencia de compra en línea que supera tus
+            expectativas. Desde electrodomésticos hasta alimentos y
+            medicamentos; {STRING.app} es tu ventana de acercamiento a tu
+            familia.
           </Text>
-          <Text style={{...styles.text, fontSize: 18}}>
-            • Una vez la carga haya salido de nuestra agencia no hay devolución
-            posible.
+          <Text style={{...styles.text18}}>
+            ¡Gracias por visitar {STRING.app}! Esperamos que disfrutes de tu
+            experiencia de compra y que encuentres productos que mejoren tu
+            felicidad y la de los tuyos. ¡Bienvenido a nuestra familia en línea!
           </Text>
-          <Text style={{...styles.text, fontSize: 18}}>
-            • {STRING.app} Envios se hace responsable de sus envíos, una vez
-            entregados a Aduanas de Cuba y sigan su curso de destino hasta su
-            domicilio.
-          </Text>
-          <Text style={{...styles.text, fontSize: 18}}>
-            • Algunos artículos pagan servicios de aduanas en la moneda del país
-            (CUP Cuba) y algunos electrodomésticos además pagan aranceles, por
-            lo que sugerimos consultar la ley de aduana antes de comprar,{' '}
-            {STRING.app}
-            Envios NO se hace responsable de estos pagos.
-          </Text>
-          <Text style={{...styles.text, fontSize: 18}}>
-            • Al recibir el paquete o bulto debe estar debidamente sellado, debe
-            pedir al agente de Correos de Cuba comprobación de peso si tiene
-            alguna duda.
-          </Text>
-          <Text style={{...styles.text, fontSize: 18}}>
-            • En caso de estar su paquete abierto, precintado, o con algún daño
-            no debe recibir el paquete; en este caso comunicarse con nosotros.
-          </Text>
-          <Text style={{...styles.text, fontSize: 18}}>
-            • Informamos que existen atrasos con los servicios de entrega de
-            paquetería, debido a las complicaciones de la pandemia del covid-19,
-            por lo que no podemos indicarle una fecha exacta en la entrega de
-            sus paquetes.
-          </Text>
-
-          <Text style={{...styles.text, fontSize: 18}}>
-            • En su perfil de cliente ubicado en la parte inferior derecha de
-            nuestra pantalla podrá encontrar:
-          </Text>
-
-          <TouchableOpacity
-            onPress={() =>
-              Linking.openURL(
-                'https://play.google.com/store/apps/details?id=com.acamue.aduanadecuba',
-              )
-            }>
-            <Text
-              style={{
-                ...styles.text,
-                fontSize: 18,
-                textAlign: 'center',
-                color: '#3366BB',
-              }}>
-              Descargar Normas Aduaneras Cubanas
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() =>
-              Linking.openURL('https://www.correos.cu/rastreador-de-envios/')
-            }>
-            <Text
-              style={{
-                ...styles.text,
-                fontSize: 18,
-                textAlign: 'center',
-                color: '#3366BB',
-              }}>
-              Rastreo de Correos de Cuba
-            </Text>
-          </TouchableOpacity>
-
-          <Text style={{...styles.text, fontSize: 20, textAlign: 'right'}}>
-            Agradecemos su confianza.
-          </Text>
-          <Text
-            style={{
-              ...styles.text,
-              fontSize: 20,
-              textAlign: 'right',
-            }}>
-            Gracias por preferir {STRING.app} Envios
-          </Text>
+          <Text style={{...styles.text18}}>Con gratitud y entusiasmo,</Text>
+          <Text style={{...styles.text18}}>{STRING.app}</Text>
         </View>
         <View
           style={{

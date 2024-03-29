@@ -2,7 +2,7 @@ import React, {useContext, useEffect} from 'react';
 import {
   NavigationContainer,
   DefaultTheme,
-  useNavigation,
+  createNavigationContainerRef,
 } from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Tabs} from './Tabs';
@@ -17,7 +17,9 @@ import {
 import {useToast} from 'react-native-toast-notifications';
 import {ChatContext} from '../context/chat/ChatContext';
 
-import messaging from '@react-native-firebase/messaging';
+import messaging, {
+  FirebaseMessagingTypes,
+} from '@react-native-firebase/messaging';
 
 export type RootStackParams = {
   MoneyScreen: undefined;
@@ -30,18 +32,66 @@ export type RootStackParams = {
 
 const Stack = createStackNavigator();
 
+export const navigationRef = createNavigationContainerRef();
+
+export function navigate(name, params) {
+  if (navigationRef.isReady()) {
+    // navigationRef.navigate('Settings', {screen: 'MessagesScreen'});
+    navigationRef.navigate(name, params);
+  }
+}
+
 export const StackNavigator = () => {
   const {status, user} = useContext(AuthContext);
   const {setNewMessages} = useContext(ChatContext);
 
   const toast = useToast();
 
+  const redirectFunction = (
+    remoteMessage: FirebaseMessagingTypes.RemoteMessage,
+  ) => {
+    console.log('Redirecting', remoteMessage.data);
+    if (
+      remoteMessage.data &&
+      remoteMessage.data.type &&
+      remoteMessage.data.type === 'MESSAGE'
+    ) {
+      navigate('Settings', {screen: 'MessagesScreen'});
+    }
+    if (
+      remoteMessage.data &&
+      remoteMessage.data.type &&
+      remoteMessage.data.type === 'NOTIFYCOMBO'
+    ) {
+      navigate('Tienda', {
+        screen: 'CategoryScreen',
+        params: {category: JSON.parse(remoteMessage.data.combo)},
+      });
+    }
+    if (
+      remoteMessage.data &&
+      remoteMessage.data.type &&
+      remoteMessage.data.type === 'NEWPROMOCODE'
+    ) {
+      console.log(remoteMessage.data);
+
+      navigate('Settings', {screen: 'PromocodeScreen'});
+      navigate('Settings', {
+        screen: 'PromocodeScreen',
+        params: {
+          name: remoteMessage.data.name ? remoteMessage.data.name : '',
+        },
+      });
+    }
+  };
+
   useEffect(() => {
     if (status === 'authenticated') {
       requestUserPermission(user?.id, user?.notificationTokens);
-      NotificationListener(toast, setNewMessages);
+      NotificationListener(toast, setNewMessages, redirectFunction);
     }
   }, [status]);
+
   messaging().setBackgroundMessageHandler(async remoteMessage => {
     console.log(
       'Message handled in the background!- NAVIGATION',
@@ -66,8 +116,29 @@ export const StackNavigator = () => {
     },
   };
 
+  const linking = {
+    prefixes: [
+      'encargaenvios://',
+      'https://encargaenvios.com',
+      'http://email.encargaenvios.com',
+    ],
+    config: {
+      screens: {
+        Tabs: {
+          screens: {
+            Settings: {
+              screens: {
+                SettingsScreen: 'settings',
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+
   return (
-    <NavigationContainer theme={navTheme}>
+    <NavigationContainer linking={linking} ref={navigationRef} theme={navTheme}>
       <Stack.Navigator
         screenOptions={{
           headerShown: false,

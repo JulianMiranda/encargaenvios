@@ -6,6 +6,7 @@ import auth from '@react-native-firebase/auth';
 import {authReducer, AuthState} from './authReducer';
 import {CountryCode} from '../../utils/countryTypes';
 import {getHeaders} from '../../api/getHeaders';
+import {Prices, PricesResponse} from '../../interfaces/Prices.interface';
 
 type AuthContextProps = {
   status:
@@ -32,6 +33,8 @@ type AuthContextProps = {
   setCountryCallCode: (countryCallCode: string) => void;
   countryCode: CountryCode;
   countryCallCode: string;
+  prices: Prices;
+  minimumVersion: number;
 };
 
 const authInicialState: AuthState = {
@@ -42,6 +45,109 @@ const authInicialState: AuthState = {
   errorMessage: '',
   countryCode: 'EC',
   countryCallCode: '+593',
+  minimumVersion: 0,
+  prices: {
+    oneandhalfkgPrice: 0,
+    twokgPrice: 0,
+    threekgPrice: 0,
+    fourkgPrice: 0,
+    fivekgPrice: 0,
+    sixkgPrice: 0,
+    sevenkgPrice: 0,
+    eightkgPrice: 0,
+    ninekgPrice: 0,
+    tenkgPrice: 0,
+    elevenkgPrice: 0,
+    twelvekgPrice: 0,
+    thirteenkgPrice: 0,
+    fourteenkgPrice: 0,
+    fifteenkgPrice: 0,
+    sixteenkgPrice: 0,
+    seventeenkgPrice: 0,
+    eighteenkgPrice: 0,
+    nineteenkgPrice: 0,
+    twentykgPrice: 0,
+    twentyonekgPrice: 0,
+    twentytwokgPrice: 0,
+    twentythreekgPrice: 0,
+    twentyfourkgPrice: 0,
+    twentyfivekgPrice: 0,
+    twentysixkgPrice: 0,
+    twentysevenkgPrice: 0,
+    twentyeightkgPrice: 0,
+    twentyninekgPrice: 0,
+    thirtykgPrice: 0,
+    thirtyonekgPrice: 0,
+    thirtytwokgPrice: 0,
+    thirtythreekgPrice: 0,
+    thirtyfourkgPrice: 0,
+    thirtyfivekgPrice: 0,
+    thirtysixkgPrice: 0,
+    thirtysevenkgPrice: 0,
+    thirtyeightkgPrice: 0,
+    thirtyninekgPrice: 0,
+    fortykgPrice: 0,
+    fortyonekgPrice: 0,
+    fortytwokgPrice: 0,
+    fortythreekgPrice: 0,
+    fortyfourkgPrice: 0,
+    fortyfivekgPrice: 0,
+    fortysixkgPrice: 0,
+    fortysevenkgPrice: 0,
+    fortyeightkgPrice: 0,
+    fortyninekgPrice: 0,
+    fiftykgPrice: 0,
+    fiftyonekgPrice: 0,
+    fiftytwokgPrice: 0,
+    fiftythreekgPrice: 0,
+    fiftyfourkgPrice: 0,
+    fiftyfivekgPrice: 0,
+    fiftysixkgPrice: 0,
+    fiftysevenkgPrice: 0,
+    fiftyeightkgPrice: 0,
+    fiftyninekgPrice: 0,
+    sixtykgPrice: 0,
+    sixtyonekgPrice: 0,
+    sixtytwokgPrice: 0,
+    sixtythreekgPrice: 0,
+    sixtyfourkgPrice: 0,
+    sixtyfivekgPrice: 0,
+    sixtysixkgPrice: 0,
+    sixtysevenkgPrice: 0,
+    sixtyeightkgPrice: 0,
+    sixtyninekgPrice: 0,
+    seventykgPrice: 0,
+    seventyonekgPrice: 0,
+    seventytwokgPrice: 0,
+    seventythreekgPrice: 0,
+    seventyfourkgPrice: 0,
+    seventyfivekgPrice: 0,
+    seventysixkgPrice: 0,
+    seventysevenkgPrice: 0,
+    seventyeightkgPrice: 0,
+    seventyninekgPrice: 0,
+    eightykgPrice: 0,
+    eightyonekgPrice: 0,
+    eightytwokgPrice: 0,
+    eightythreekgPrice: 0,
+    eightyfourkgPrice: 0,
+    eightyfivekgPrice: 0,
+    eightysixkgPrice: 0,
+    eightysevenkgPrice: 0,
+    eightyeightkgPrice: 0,
+    eightyninekgPrice: 0,
+    ninetykgPrice: 0,
+    ninetyonekgPrice: 0,
+    ninetytwokgPrice: 0,
+    ninetythreekgPrice: 0,
+    ninetyfourkgPrice: 0,
+    ninetyfivekgPrice: 0,
+    ninetysixkgPrice: 0,
+    ninetysevenkgPrice: 0,
+    ninetyeightkgPrice: 0,
+    ninetyninekgPrice: 0,
+    onehundredkgPrice: 0,
+  },
 };
 
 export const AuthContext = createContext({} as AuthContextProps);
@@ -66,12 +172,35 @@ export const AuthProvider = ({children}: any) => {
   useEffect(() => {
     checkToken();
   }, []);
+  useEffect(() => {
+    checkMinimumVersion();
+  }, []);
+  useEffect(() => {
+    checkPrices();
+  }, []);
+
+  const checkPrices = async () => {
+    try {
+      const prices = await api.get<PricesResponse>('/prices/getPricesUnAuth');
+
+      dispatch({type: 'setPrices', payload: prices.data.prices});
+    } catch (error) {
+      console.log('Error Prices', error);
+    }
+  };
+
+  const checkMinimumVersion = async () => {
+    try {
+      const minVersion = await api.get<number>('/version/getVersion');
+      dispatch({type: 'setMinimumVersion', payload: minVersion.data});
+    } catch (error) {
+      console.log('Error Prices', error);
+    }
+  };
 
   const checkToken = async () => {
     // Hay token
     try {
-      console.log('Auth');
-
       const headers = await getHeaders();
       const token = headers.get('x-token');
       if (!token) {

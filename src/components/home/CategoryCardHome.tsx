@@ -8,14 +8,14 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-
 import {StackNavigationProp} from '@react-navigation/stack';
-
 import {FadeInImage} from '../common/FadeInImage';
 import {RootStackParams} from '../../navigator/HomeStack';
 import {formatToCurrency} from '../../utils/formatToCurrency';
 import {discount} from '../../utils/discount';
 import {Category} from '../../interfaces/CategoryResponse.interface';
+import {PromoString} from './PromoString';
+import {useNodeInPromo} from '../../hooks/useNodeInPromo';
 
 interface Props {
   item: Category;
@@ -25,7 +25,7 @@ interface PropsNavigation
 
 const {width} = Dimensions.get('window');
 export const CategoryCardHome = ({item}: Props) => {
-  const {price, priceDiscount, image, name, soldOut, createdAt} = item;
+  const {price, priceDiscount, image, name, soldOut, createdAt, nodes} = item;
 
   const navigation = useNavigation<PropsNavigation>();
 
@@ -33,6 +33,8 @@ export const CategoryCardHome = ({item}: Props) => {
   const fechaFin = new Date().getTime();
   const diff = fechaFin - fechaInicio;
   const days = diff / (1000 * 60 * 60 * 14);
+  const {nodeInPromo} = useNodeInPromo(nodes);
+
   return (
     <TouchableOpacity
       activeOpacity={0.9}
@@ -47,6 +49,7 @@ export const CategoryCardHome = ({item}: Props) => {
           ...styles.cardContainer,
         }}>
         <View style={{borderRadius: 10}}>
+          {nodeInPromo && <PromoString />}
           {days < 24 && (
             <Image
               source={require('../../assets/nuevo2.png')}

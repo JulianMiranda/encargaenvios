@@ -32,14 +32,14 @@ export const SearchResults = ({search}: Props) => {
       search: {text: searchWord.trim(), fields: ['textSearch']},
       population: [
         {
-          path: 'nodes',
+          path: 'category',
           filter: {status: true},
           fields: {
             name: true,
           },
         },
         {
-          path: 'subcategories',
+          path: 'nodes',
           filter: {status: true},
           fields: {
             name: true,
@@ -104,7 +104,6 @@ export const SearchResults = ({search}: Props) => {
             // Header
             ListHeaderComponent={
               <View
-                // eslint-disable-next-line react-native/no-inline-styles
                 style={{
                   marginBottom: 10,
                   paddingBottom: 10,

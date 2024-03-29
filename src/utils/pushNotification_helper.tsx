@@ -1,4 +1,6 @@
-import messaging from '@react-native-firebase/messaging';
+import messaging, {
+  FirebaseMessagingTypes,
+} from '@react-native-firebase/messaging';
 import {Platform} from 'react-native';
 import {ToastType} from 'react-native-toast-notifications';
 import api from '../api/api';
@@ -49,12 +51,14 @@ const getFCMToken = async (userId: string, notificationTokens: string[]) => {
 export const NotificationListener = (
   toast?: ToastType,
   setNewMessages?: () => void,
+  handleTouch: (remoteMessage: FirebaseMessagingTypes.RemoteMessage) => void,
 ) => {
   messaging().onNotificationOpenedApp(remoteMessage => {
     console.log(
       'Notification caused app to open from background state:',
       remoteMessage.notification,
     );
+    handleTouch(remoteMessage);
   });
 
   messaging()
@@ -74,10 +78,11 @@ export const NotificationListener = (
       setNewMessages();
     }
     if (toast)
+      // eslint-disable-next-line curly
       toast.show(
         remoteMessage.notification?.title
           ? remoteMessage.notification?.title
-          : 'Nuva notificación',
+          : 'Nueva notificación',
         {
           type: 'normal',
           placement: 'top',

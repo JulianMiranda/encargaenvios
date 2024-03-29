@@ -17,21 +17,42 @@ export const useCategoryRecomendedPaginated = () => {
     setIsLoading(true);
     const body = {
       page: nextPage.current,
-      docsPerPage: 4,
+      docsPerPage: 10,
       sort: {createdAt: 'ASC'},
+      population: [
+        {
+          path: 'subcategories',
+          filter: {status: true},
+          fields: {
+            name: true,
+          },
+        },
+        {
+          path: 'image',
+          filter: {status: true},
+          fields: {
+            url: true,
+          },
+        },
+        {
+          path: 'nodes',
+          filter: {status: true},
+          fields: {
+            name: true,
+          },
+        },
+      ],
     };
     try {
       if (nextPage.current <= totalPages.current + 2) {
         setIsLoading(true);
-
+        console.log('Recomended', body);
         const resp = await api.post<CategoryRecomendedResponse>(
           status === 'authenticated' && user?.id
             ? '/queries/getRecomendedCategories'
             : '/queries/getRecomendedCategoriesUnAuth',
           body,
         );
-        console.log(resp.status);
-
         nextPage.current = resp.data.page + 1;
         totalPages.current = resp.data.totalPages;
         setCategoryRecomendedList([

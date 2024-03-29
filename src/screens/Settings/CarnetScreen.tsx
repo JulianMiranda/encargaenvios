@@ -13,7 +13,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {BackButton} from '../../components/common/BackButton';
 import {CarnetComponent} from '../../components/shop/CarnetComponent';
@@ -190,8 +190,8 @@ export const CarnetScreen = () => {
                 onPress={() => buttonDeleteCarnet(carnet)}
                 style={styles.button}>
                 <Icon
-                  name="close-circle-outline"
-                  size={26}
+                  name="trash"
+                  size={22}
                   color="red"
                   style={{position: 'absolute', top: 5, right: 5}}
                 />

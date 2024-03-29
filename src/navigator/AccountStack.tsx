@@ -4,8 +4,9 @@ import {AccountScreen} from '../screens/Account/AccountScreen';
 import {SingleOrderScreen} from '../screens/Account/SingleOrderScreen';
 import {Code, Trackcode} from '../interfaces/Order.interface';
 import {TrackScreen} from '../screens/Account/TrackScreen';
-import {CarItemProps} from '../interfaces/Shop.Interface';
+import {CarItemProps, ComboItemProps} from '../interfaces/Shop.Interface';
 import {CorreosScreen} from '../screens/Account/CorreosScreen';
+import {SingleOrderComboScreen} from '../screens/Account/SingleOrderComboScreen';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,17 @@ export type RootStackParams = {
     codes: Code[];
     selectedCarnet: any[];
     order: string;
+    status: boolean;
+  };
+  SingleOrderComboScreen: {
+    comboItem: ComboItemProps[];
+    number: number;
+    createdAt: Date;
+    trackcode: Trackcode;
+    codes: Code[];
+    selectedCarnet: any[];
+    order: string;
+    comboCode: string;
     status: boolean;
   };
 };
@@ -41,6 +53,15 @@ export const AccountStack = () => {
       <Stack.Screen
         name="SingleOrderScreen"
         component={SingleOrderScreen}
+        options={{
+          headerShown: false,
+          /* 	title: 'Home',
+					headerBackTitleVisible: false */
+        }}
+      />
+      <Stack.Screen
+        name="SingleOrderComboScreen"
+        component={SingleOrderComboScreen}
         options={{
           headerShown: false,
           /* 	title: 'Home',

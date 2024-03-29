@@ -11,7 +11,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {BackButton} from '../../components/common/BackButton';
 import {FadeInImage} from '../../components/common/FadeInImage';
 import {NoPropsInvited} from '../../components/common/NoPropsInvited';
@@ -20,6 +19,9 @@ import {ThemeContext} from '../../context/theme/ThemeContext';
 import {useForm} from '../../hooks/useForm';
 import {usePerfil} from '../../hooks/usePerfil';
 import {ActivityIndicator} from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import LinearGradient from 'react-native-linear-gradient';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const {height} = Dimensions.get('window');
 const HEADER_MAX_HEIGHT = height * 0.15;
@@ -60,7 +62,12 @@ export const PerfilScreen = () => {
         phone,
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email, name, phone]);
+
+  useEffect(() => {
+    console.log(user?.id);
+  }, [user]);
 
   useEffect(() => {
     if (name !== form.name || email !== form.email || phone !== form.phone) {
@@ -68,6 +75,7 @@ export const PerfilScreen = () => {
     } else {
       setShowSaveButton(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email, form.email, form.name, form.phone, name, phone]);
 
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -107,7 +115,8 @@ export const PerfilScreen = () => {
     outputRange: [-30, -30, -30, 5],
     extrapolate: 'clamp',
   });
-  const navigation = useNavigation();
+  const navigation = useNavigation<any>();
+  const {top} = useSafeAreaInsets();
   if (status !== 'authenticated') {
     return (
       <>
@@ -117,50 +126,97 @@ export const PerfilScreen = () => {
     );
   }
   return (
-    <>
+    <View style={{flex: 1}}>
       <Animated.View
         style={{
-          ...styles.top,
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          backgroundColor: 'lightskyblue',
           height: headerHeight,
           zIndex: headerZindex,
           elevation: headerZindex,
+          alignItems: 'center',
         }}>
         <Animated.View
           style={{
-            ...styles.topBox,
+            position: 'absolute',
             bottom: headerTitleBottom,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
           }}>
           <TouchableOpacity
             onPress={() => navigation.pop()}
             activeOpacity={0.8}
             style={{position: 'absolute', left: 5, bottom: -5}}>
-            <Ionicons name="arrow-back-outline" color="white" size={35} />
+            <Icon name="arrow-back-outline" color="white" size={35} />
           </TouchableOpacity>
-          <Text style={styles.textTitle}>{form.name ? form.name : ''}</Text>
+          <Text
+            style={{
+              color: 'white',
+              fontSize: 22,
+              fontWeight: 'bold',
+            }}>
+            {form.name ? form.name : ''}
+          </Text>
         </Animated.View>
       </Animated.View>
-
       <ScrollView
         scrollEventThrottle={16}
         onScroll={Animated.event(
           [{nativeEvent: {contentOffset: {y: scrollY}}}],
           {useNativeDriver: false},
         )}>
-        <Animated.View
-          style={{
-            height: profileImageHeight,
-            width: profileImageHeight,
-            borderRadius: PROFILE_IMAGE_MAX_HEIGHT / 2,
-            marginTop: profileImageMarginTop,
-            ...styles.shortView,
-          }}>
-          {user?.image.url && (
-            <FadeInImage
-              uri={user?.image.url}
-              style={{height: '100%', width: '100%', borderRadius: 50}}
-            />
-          )}
-        </Animated.View>
+        <>
+          <BackButton navigation={navigation} style={{marginTop: top / 2}} />
+          <LinearGradient
+            colors={['#4EB2E4', '#94CFEC', '#fff']}
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 5,
+              height: height * 0.2,
+              marginBottom: 10,
+            }}>
+            <Animated.View
+              style={{
+                height: profileImageHeight,
+                width: profileImageHeight,
+                borderRadius: PROFILE_IMAGE_MAX_HEIGHT / 2,
+                borderColor: 'white',
+                borderWidth: 3,
+                overflow: 'hidden',
+                marginTop: top,
+                marginRight: 10,
+                alignSelf: 'flex-end',
+              }}>
+              <FadeInImage
+                uri={
+                  user?.image.url
+                    ? user.image.url
+                    : 'https://cdn2.vectorstock.com/i/1000x1000/92/16/default-profile-picture-avatar-user-icon-vector-46389216.jpg'
+                }
+                style={{flex: 1, width: 75, height: 75}}
+              />
+            </Animated.View>
+            <View style={{alignItems: 'center'}}>
+              <Text
+                numberOfLines={1}
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: 26,
+                  paddingLeft: 10,
+                  marginTop: -80,
+                  maxWidth: '50%',
+                }}>
+                {form.name ? form.name : ''}
+              </Text>
+            </View>
+          </LinearGradient>
+        </>
         {isLoading && (
           <View
             style={{
@@ -177,9 +233,9 @@ export const PerfilScreen = () => {
           </View>
         )}
 
-        <View style={{alignItems: 'center'}}>
+        {/* <View style={{alignItems: 'center'}}>
           <Text style={styles.title}>{form.name ? form.name : ''}</Text>
-        </View>
+        </View> */}
 
         <View style={{marginTop: 70, padding: 10}}>
           <Text style={styles.buttonText}>{user?.phone}</Text>
@@ -237,8 +293,9 @@ export const PerfilScreen = () => {
             </View>
           </TouchableOpacity>
         )}
+        <View style={{height: 100}} />
       </ScrollView>
-    </>
+    </View>
   );
 };
 
@@ -287,7 +344,8 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 3,
     overflow: 'hidden',
-    marginLeft: 10,
+    marginRight: 10,
+    alignSelf: 'flex-end',
   },
   inputStyle: {
     borderWidth: 1,

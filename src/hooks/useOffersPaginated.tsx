@@ -29,6 +29,13 @@ export const useOffersPaginated = () => {
           },
         },
         {
+          path: 'nodes',
+          filter: {status: true},
+          fields: {
+            name: true,
+          },
+        },
+        {
           path: 'image',
           filter: {status: true},
           fields: {
@@ -42,7 +49,7 @@ export const useOffersPaginated = () => {
       if (nextPage.current <= totalPages.current + 2) {
         setIsLoading(true);
         const resp = await api.post<CategoryResponse>(
-          '/categories/getList',
+          '/categories/getListUnAuth',
           body,
         );
 

@@ -4,20 +4,19 @@ import {View, Image, TouchableOpacity, Text} from 'react-native';
 import {Modalize} from 'react-native-modalize';
 import {AuthContext} from '../../context/auth/AuthContext';
 import {LoginSystemScreen} from '../../screens/Login/LoginSystemScreen';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export const NoPropsInvited = () => {
   const {user} = useContext(AuthContext);
   const modalizeRef = useRef<Modalize>(null);
+  const {top} = useSafeAreaInsets();
 
   useEffect(() => {
     if (user) {
       modalizeRef.current?.close();
     }
   }, [user]);
-  /* useEffect(() => {
-    modalizeRef.current?.open();
-  }, []);
- */
+
   return (
     <>
       <View
@@ -39,7 +38,7 @@ export const NoPropsInvited = () => {
             alignSelf: 'center',
             color: '#000',
           }}>
-          Inicia sesión para obtener mejor experiencia
+          Inicia sesión en nuestra tienda
         </Text>
         <TouchableOpacity
           onPress={() => modalizeRef.current?.open()}
@@ -71,7 +70,15 @@ export const NoPropsInvited = () => {
           </Text>
         </TouchableOpacity>
       </View>
-      <Modalize modalStyle={{zIndex: 1000000000, flex: 1}} ref={modalizeRef}>
+      <Modalize
+        modalStyle={{zIndex: 1000000000, flex: 1}}
+        disableScrollIfPossible
+        scrollViewProps={{
+          showsVerticalScrollIndicator: false,
+          scrollEnabled: false,
+        }}
+        modalTopOffset={top}
+        ref={modalizeRef}>
         <LoginSystemScreen />
       </Modalize>
     </>

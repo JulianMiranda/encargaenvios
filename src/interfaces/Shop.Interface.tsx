@@ -1,4 +1,5 @@
 import {Category} from './CategoryResponse.interface';
+import {Subcategory} from './Subcategory.interface';
 
 export interface CarItemProps {
   category: Category;
@@ -13,4 +14,10 @@ export interface MyShopResponse {
   createdAt: string;
   updatedAt: string;
   __v: number;
+}
+
+export interface ComboItemProps {
+  subcategory: Subcategory;
+  cantidad: number;
+  node: string;
 }

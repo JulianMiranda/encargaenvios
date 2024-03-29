@@ -12,7 +12,7 @@ type Props = BottomTabBarButtonProps & {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const TabBarAdvancedButton: React.FC<Props> = ({bgColor, ...props}) => {
-  const {car} = useContext(ShopContext);
+  const {car, combo} = useContext(ShopContext);
   const {
     theme: {colors},
   } = useContext(ThemeContext);
@@ -31,22 +31,16 @@ export const TabBarAdvancedButton: React.FC<Props> = ({bgColor, ...props}) => {
         activeOpacity={0.8}
         style={{...styles.button, backgroundColor: colors.primary}}
         onPress={props.onPress}>
-        {car.length > 0 && (
+        {(car.length > 0 || combo.length > 0) && (
           <View
             style={{
-              position: 'absolute',
-              top: 0,
-              right: -10,
+              ...styles.number,
               backgroundColor: colors.card,
-              borderRadius: 100,
-              height: 22,
-              width: 22,
-              justifyContent: 'center',
-              alignItems: 'center',
-              alignContent: 'center',
             }}>
             <Text style={{color: 'white'}}>
-              {car.length < 10 ? car.length : '+9'}
+              {car.length + (combo.length > 0 ? 1 : 0) < 10
+                ? car.length + (combo.length > 0 ? 1 : 0)
+                : '+9'}
             </Text>
           </View>
         )}
@@ -77,5 +71,16 @@ const styles = StyleSheet.create({
   buttonIcon: {
     fontSize: 22,
     color: '#ecece4',
+  },
+  number: {
+    position: 'absolute',
+    top: 0,
+    right: -10,
+    borderRadius: 100,
+    height: 22,
+    width: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignContent: 'center',
   },
 });

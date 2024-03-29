@@ -16,7 +16,7 @@ export const CategoryScreen = (props: Props) => {
   console.log('Viendo una categoría Search');
   useEffect(() => {
     try {
-      if (status === 'authenticated') {
+      if (status === 'authenticated' && category) {
         const body = {
           id: category.id,
         };

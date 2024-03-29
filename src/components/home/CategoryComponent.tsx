@@ -25,6 +25,9 @@ import {Slider} from './Slider';
 import {Image as PImage} from '../../interfaces/Image.interface';
 import {ModalImages} from '../common/ModalImages';
 import {isIphoneXorAbove} from '../../utils/isIphone';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {PromoString} from './PromoString';
+import {useNodeInPromo} from '../../hooks/useNodeInPromo';
 
 interface Props {
   category: Category;
@@ -47,6 +50,7 @@ export const CategoryComponent = ({category}: Props) => {
     image,
     info,
     aviableColors,
+    nodes,
   } = category;
   const {setItem} = useContext(ShopContext);
   const {
@@ -66,11 +70,14 @@ export const CategoryComponent = ({category}: Props) => {
   const [subcategoriesNames, setSubcategoriesNames] = useState<SubcatNames[]>(
     [],
   );
+  const [imageSubcatCounter, setImageSubcatCounter] = useState<string[]>([]);
 
   const fechaInicio = new Date(createdAt).getTime();
   const fechaFin = new Date().getTime();
   const diff = fechaFin - fechaInicio;
   const days = diff / (1000 * 60 * 60 * 14);
+
+  const {nodeInPromo} = useNodeInPromo(nodes);
 
   const updateCantidad = (subcategoryRef: Category, cantidadRef: number) => {
     if (cantidadRef > 0) {
@@ -92,7 +99,13 @@ export const CategoryComponent = ({category}: Props) => {
 
   useEffect(() => {
     subcategoriesAsc.map(subcat =>
-      subcat.images.map(imageSubc => imageFront.push(imageSubc)),
+      subcat.images.map(imageSubc => {
+        if (imageSubcatCounter.includes(JSON.stringify(imageSubc))) {
+        } else {
+          imageSubcatCounter.push(JSON.stringify(imageSubc));
+          imageFront.push(imageSubc);
+        }
+      }),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subcategoriesAsc]);
@@ -127,30 +140,30 @@ export const CategoryComponent = ({category}: Props) => {
     }
     return acumulador;
   };
+  const {bottom} = useSafeAreaInsets();
   return (
     <>
       <BackButton navigation={navigation} />
       <ScrollView>
+        {soldOut && (
+          <View style={styles.soldOut}>
+            <Image
+              source={require('../../assets/agotado.png')}
+              style={{width: '100%', height: height * 0.45}}
+            />
+          </View>
+        )}
         <Slider
           images={imageFront}
           setIsVisible={setIsVisible}
           setImageIndex={setImageIndex}
         />
-        {soldOut && (
-          <View style={styles.soldOut}>
-            <Image
-              source={require('../../assets/agotado.png')}
-              style={{width: 500, height: 500}}
-            />
-          </View>
-        )}
         {days < 24 && (
           <Image
             source={require('../../assets/nuevo_producto3.png')}
             style={styles.newImageProduct}
           />
         )}
-
         <View style={styles.row}>
           <View style={styles.column}>
             <Text style={styles.name}>{name}</Text>
@@ -166,7 +179,12 @@ export const CategoryComponent = ({category}: Props) => {
             </View>
           )}
         </View>
-        <PricesView price={price} priceDiscount={priceDiscount} />
+        <PricesView
+          price={price}
+          priceDiscount={priceDiscount}
+          nodeInPromo={nodeInPromo}
+        />
+
         {subcategoriesAsc.length > 1 && (
           <View style={styles.contenidoView}>
             <Text style={styles.contenidoText}>Contenido</Text>
@@ -190,7 +208,6 @@ export const CategoryComponent = ({category}: Props) => {
         />
         <DescriptionCategory ship={ship} description={description} />
         <InfoCategory info={info} />
-
         <TouchableOpacity
           style={{
             ...styles.button,
@@ -214,8 +231,7 @@ export const CategoryComponent = ({category}: Props) => {
             <Text style={styles.textButton}>Comprar ahora</Text>
           </View>
         </TouchableOpacity>
-
-        {/*  <View style={{height: 150}} /> */}
+        <View style={{height: 10}} />
         <ModalImages
           isVisible={isVisible}
           setIsVisible={setIsVisible}
@@ -227,9 +243,10 @@ export const CategoryComponent = ({category}: Props) => {
       </ScrollView>
       <View
         style={{
-          height: isIphoneXorAbove ? 150 : 120,
+          height: isIphoneXorAbove ? 145 : 120,
           /*  height:
             Platform.OS === 'ios' ? height * 0.14 + 40 : height * 0.11 + 40, */
+          backgroundColor: 'transparent',
         }}
       />
       <TouchableOpacity
@@ -238,7 +255,7 @@ export const CategoryComponent = ({category}: Props) => {
           borderColor: soldOut ? '#f1f1f1' : colors.card,
           backgroundColor: soldOut ? '#f1f1f1' : colors.card,
           position: 'absolute',
-          bottom: isIphoneXorAbove ? 110 : 80,
+          bottom: bottom / 2 + 90,
           /* bottom: Platform.OS === 'ios' ? height * 0.14 : height * 0.11, */
         }}
         activeOpacity={soldOut ? 1 : 0.8}
@@ -256,7 +273,7 @@ export const CategoryComponent = ({category}: Props) => {
             </Text>
           </View>
 
-          <Text style={styles.textButton}>Añadir al carrito</Text>
+          <Text style={{...styles.textButton}}>Añadir al carrito</Text>
         </View>
       </TouchableOpacity>
       {isLoading && (
@@ -322,11 +339,12 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     position: 'absolute',
     width: '100%',
-    height: '100%',
+    height: height * 0.45,
     left: 0,
     top: 0,
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 1000000,
   },
   name: {
     fontSize: 22,

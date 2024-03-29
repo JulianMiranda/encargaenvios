@@ -1,6 +1,6 @@
 import React from 'react';
 import {Dimensions} from 'react-native';
-import {Linking, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {TopScrollGradient} from './TopScrollGradient';
 import {STRING} from '../../forkApps/forkApps';
 
@@ -9,112 +9,80 @@ const {height} = Dimensions.get('window');
 export const TandC = () => {
   return (
     <>
-      <TopScrollGradient title="Términos">
+      <TopScrollGradient title={`Información\nal comprar`}>
         <View style={{padding: 10}}>
           <Text style={{...styles.text, fontSize: 26, marginTop: 70}}>
             Estimado Cliente
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
-            • Cada persona residente en Cuba puede recibir 500 puntos al año.
+            • Algunos artículos pagan servicios de entrega y/o arancel de
+            Aduanas en la moneda del país (CUP Cuba), sugerimos consultar la ley
+            de Aduanas de Cuba antes de comprar,
+            {STRING.app} NO se hace responsable de estos pagos.
           </Text>
-          <Text style={{...styles.text, fontSize: 18}}>
-            • Correos de Cuba cobrará un una tarifa de entrega que deberá ser
-            pagada a la hora de retirar el paquete en la Oficina de Correo de
-            Cuba.
-          </Text>
-
           <Text style={{...styles.text, fontSize: 18}}>
             • Para consultar los valores de Aduanas de Cuba recomendamos
-            descargar la aplicación móvil NAC (Normas Aduaneras de Cuba).
+            descargar la aplicación móvil (Normas Aduaneras de Cuba).
           </Text>
 
-          <Text style={{...styles.text, fontSize: 18}}>
-            • Una vez enviados sus paquetes se le actualizarán los códigos de
-            seguimiento de sus paquetes que se verán reflejados en la sección de
-            Rastreo.
-          </Text>
           <Text style={{...styles.text, fontSize: 18}}>
             • Cada paquete tiene su código, es independiente a otro y así son
             tratados, por lo que pueden llegarle al destinatario en fechas
             diferentes.
           </Text>
+
           <Text style={{...styles.text, fontSize: 18}}>
-            • Los servicios de entrega son hasta el domicilio de la persona que
-            recibe, dicha entrega corre a cargo de Correos de Cuba.
+            • Nuestros servicios de entrega son hasta el domicilio o hasta la
+            oficina de Correos de Cuba más cercana a la dirección proporcionada,
+            dicha entrega corre a cargos de Correos de Cuba.
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
             • Una vez la carga haya salido de nuestra agencia no hay devolución
             posible.
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
-            • {STRING.app} Envios se hace responsable de sus envíos, una vez
-            entregados a Aduanas de Cuba y sigan su curso de destino hasta su
-            domicilio.
+            • {STRING.app} se hace responsable de sus envíos, una vez entregados
+            a Aduanas de Cuba y sigan su curso de destino hasta su domicilio.
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
-            • Algunos artículos pagan servicios de aduanas en la moneda del país
-            (CUP Cuba) y algunos electrodomésticos además pagan aranceles, por
-            lo que sugerimos consultar la ley de aduana antes de comprar,{' '}
-            {STRING.app}
-            Envios NO se hace responsable de estos pagos.
+            • {STRING.app} no se hace responsable de la manipulación sobre la
+            fragilidad de la mercancía, de igual manera no brindamos garantía
+            sobre el mal uso de ninguno de nuestros artículos.
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
-            • Al recibir el paquete o bulto debe estar debidamente sellado, debe
-            pedir al agente de Correos de Cuba comprobación de peso si tiene
-            alguna duda.
+            • Al recibir el paquete o bulto debe estar debidamente sellado, en
+            caso de estar defectuoso, abierto, precintado, o presentar cualquier
+            daño, es MUY IMPORTANTE no recibir el paquete o bulto, solicitar la
+            comprobación del peso del mismo y comunicarse con nosotros para
+            comenzar las reclamaciones pertinentes.
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
-            • En caso de estar su paquete abierto, precintado, o con algún daño
-            no debe recibir el paquete; en este caso comunicarse con nosotros.
+            • Si usted recibe y realiza el pago del arancel y/o servicio de
+            entrega de su bulto o paquete da por aceptado su totalidad, una vez
+            realizado esto no hay reclamación posible.
           </Text>
           <Text style={{...styles.text, fontSize: 18}}>
-            • Informamos que existen atrasos con los servicios de entrega de
-            paquetería, debido a las complicaciones de la pandemia del covid-19,
-            por lo que no podemos indicarle una fecha exacta en la entrega de
-            sus paquetes.
+            • Informamos que nuestros servicios de envíos son de manera regular,
+            lo que no nos permite indicar una fecha de entrega, nuestra
+            paquetería llega a territorio nacional aproximadamente una semana
+            después de despacho, no podemos influir en el curso de movilidad de
+            las autoridades cubanas, ni de las empresas encargadas de la
+            entrega.
+          </Text>
+          <Text style={{...styles.text, fontSize: 18}}>
+            • Debe conservar la factura que se le envía a su correo para
+            respaldar cualquier solicitud de información o reclamos.
+          </Text>
+          <Text style={{...styles.text, fontSize: 18}}>
+            • Ante cualquier inconformidad o que detecte cobro doble o no
+            autorizado en su tarjeta puede contactarnos y se le dará una
+            respuesta sin necesidad de tramitar a través del banco los reclamos
+            que son procesos demorados.
           </Text>
 
           <Text style={{...styles.text, fontSize: 18}}>
-            • En su perfil de cliente ubicado en la parte inferior derecha de
-            nuestra pantalla podrá encontrar:
-          </Text>
-
-          <TouchableOpacity
-            onPress={() =>
-              Linking.openURL(
-                'https://play.google.com/store/apps/details?id=com.acamue.aduanadecuba',
-              )
-            }>
-            <Text
-              style={{
-                ...styles.text,
-                fontSize: 18,
-                textAlign: 'center',
-                color: '#3366BB',
-              }}>
-              Descargar Normas Aduaneras Cubanas
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() =>
-              Linking.openURL('https://www.correos.cu/rastreador-de-envios/')
-            }>
-            <Text
-              style={{
-                ...styles.text,
-                fontSize: 18,
-                textAlign: 'center',
-                color: '#3366BB',
-              }}>
-              Rastreo de Correos de Cuba
-            </Text>
-          </TouchableOpacity>
-
-          <Text style={{...styles.text, fontSize: 20, textAlign: 'right'}}>
-            Agradecemos su confianza
-          </Text>
-          <Text style={{...styles.text, fontSize: 20, textAlign: 'right'}}>
-            Gracias por preferir {STRING.app} Envios
+            • Los reclamos deben estar respaldados con los justificantes que se
+            indican en los Términos y Condiciones del Servicios.
           </Text>
         </View>
         <View

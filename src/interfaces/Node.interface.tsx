@@ -11,4 +11,5 @@ export interface Node {
   name: string;
   id: string;
   image: Image;
+  personalCombo: boolean;
 }

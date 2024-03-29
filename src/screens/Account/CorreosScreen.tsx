@@ -111,7 +111,7 @@ export const CorreosScreen = (props: Props) => {
               style={{
                 color: '#fff',
               }}>
-              Código no disponible aún, solicite ayuda con un administrador
+              Código no disponible aún, solicite ayuda de un asesor
             </Text>
           </View>
         </>

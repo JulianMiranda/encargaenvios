@@ -18,6 +18,7 @@ export const Rebajas = ({offers}: Props) => {
   const {
     theme: {colors},
   } = useContext(ThemeContext);
+
   return (
     <View style={{marginTop: 10}}>
       {offers.length > 0 && (
